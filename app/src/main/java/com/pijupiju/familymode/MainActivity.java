@@ -91,15 +91,36 @@ public class MainActivity extends AppCompatActivity {
                 if (wifiName.equals(targetWifiName)) {
                     Log.d(TAG, "connected to home wifi, disabling ringer :)");
                     disableRinger();
+                } else {
+                    Log.d(TAG, "connected to some other wifi, don't care, enable ringer :)");
+                    enableRinger();
                 }
+            } else {
+                Log.d(TAG, "not connected to any wifi, enable ringer :))");
+                enableRinger();
             }
         }
     };
 
     private void disableRinger() {
+        String methodName = new Object() {
+        }.getClass().getEnclosingMethod().getName();
+        Log.d(TAG, "-> " + methodName);
+
         final AudioManager audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
         assert audioManager != null;
         audioManager.setRingerMode(AudioManager.RINGER_MODE_SILENT);
+        Log.d(TAG, "audioManager.getRingerMode: " + audioManager.getRingerMode());
+    }
+
+    private void enableRinger() {
+        String methodName = new Object() {
+        }.getClass().getEnclosingMethod().getName();
+        Log.d(TAG, "-> " + methodName);
+
+        final AudioManager audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
+        assert audioManager != null;
+        audioManager.setRingerMode(AudioManager.RINGER_MODE_NORMAL);
         Log.d(TAG, "audioManager.getRingerMode: " + audioManager.getRingerMode());
     }
 
