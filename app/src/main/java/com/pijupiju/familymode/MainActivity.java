@@ -4,6 +4,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.media.AudioManager;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.os.Bundle;
@@ -85,8 +86,21 @@ public class MainActivity extends AppCompatActivity {
             if (info != null) {
                 String wifiName = info.getSSID();
                 Log.d(TAG, "wifiName: " + wifiName);
+
+                String targetWifiName = "\"HOMEWIFI\"";
+                if (wifiName.equals(targetWifiName)) {
+                    Log.d(TAG, "connected to home wifi, disabling ringer :)");
+                    disableRinger();
+                }
             }
         }
     };
+
+    private void disableRinger() {
+        final AudioManager audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
+        assert audioManager != null;
+        audioManager.setRingerMode(AudioManager.RINGER_MODE_SILENT);
+        Log.d(TAG, "audioManager.getRingerMode: " + audioManager.getRingerMode());
+    }
 
 }
