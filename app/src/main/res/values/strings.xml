@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Family Mode</string>
+    <string name="enable_family_mode">Enable Family Mode</string>
+    <string name="disable_family_mode">Disable Family Mode</string>
 </resources>

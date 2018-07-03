@@ -17,6 +17,7 @@ public class MainActivity extends AppCompatActivity {
     private final static String TAG = MainActivity.class.getSimpleName();
     Button btnStartService;
     Intent myIntent;
+    Boolean serviceEnabled = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,9 +49,23 @@ public class MainActivity extends AppCompatActivity {
         btnStartService.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startService();
+                manageService();
             }
         });
+    }
+
+    private void manageService() {
+        String methodName = new Object() {
+        }.getClass().getEnclosingMethod().getName();
+        Log.d(TAG, "-> " + methodName);
+
+        if (serviceEnabled) {
+            stopService();
+            serviceEnabled = false;
+        } else {
+            startService();
+            serviceEnabled = true;
+        }
     }
 
     private void startService() {
@@ -61,6 +76,7 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(this, MyIntentService.class);
         startService(intent);
         registerReceiver(broadcastReceiver, new IntentFilter("android.net.wifi.STATE_CHANGE"));
+        btnStartService.setText(R.string.disable_family_mode);
     }
 
     private void stopService() {
@@ -68,10 +84,12 @@ public class MainActivity extends AppCompatActivity {
         }.getClass().getEnclosingMethod().getName();
         Log.d(TAG, "-> " + methodName);
 
+        enableRinger();
         if (myIntent != null) {
             stopService(myIntent);
         }
         myIntent = null;
+        btnStartService.setText(R.string.enable_family_mode);
     }
 
     private BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
