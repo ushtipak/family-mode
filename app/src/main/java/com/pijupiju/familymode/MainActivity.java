@@ -158,7 +158,7 @@ public class MainActivity extends AppCompatActivity {
             Log.d(TAG, "-> currentSSID: " + currentSSID);
             return currentSSID;
         } else {
-            Log.d(TAG, );
+            Log.d(TAG, getString(R.string.usr_msg_wifi_not_connected));
             return "";
         }
     }
