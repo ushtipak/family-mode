@@ -19,6 +19,7 @@ public class MainActivity extends AppCompatActivity {
     private final static String TAG = MainActivity.class.getSimpleName();
     Button btnStartService;
     Button btnMarkHomeSSID;
+    Button btnManageMarkedSSIDs;
     Intent myIntent;
     Boolean serviceEnabled = false;
 
@@ -61,6 +62,14 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 markHomeSSID();
+            }
+        });
+
+        btnManageMarkedSSIDs = (Button) findViewById(R.id.btnManageMarkedSSIDs);
+        btnManageMarkedSSIDs.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                manageMarkedSSIDs();
             }
         });
     }
@@ -129,6 +138,14 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    private void manageMarkedSSIDs() {
+        String methodName = new Object() {
+        }.getClass().getEnclosingMethod().getName();
+        Log.d(TAG, "-> " + methodName);
+
+
+    }
+
     private BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
         public void onReceive(Context context, Intent intent) {
             String methodName = new Object() {
@@ -156,11 +173,14 @@ public class MainActivity extends AppCompatActivity {
         if (info != null) {
             String currentSSID = info.getSSID();
             Log.d(TAG, "-> currentSSID: " + currentSSID);
-            return currentSSID;
-        } else {
-            Log.d(TAG, getString(R.string.usr_msg_wifi_not_connected));
-            return "";
+
+            if (!currentSSID.equals("<unknown ssid>")) {
+                return currentSSID;
+            } else {
+                Log.d(TAG, getString(R.string.usr_msg_wifi_not_connected));
+            }
         }
+        return "";
     }
 
     private void disableRinger() {

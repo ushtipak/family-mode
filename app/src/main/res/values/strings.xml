@@ -3,6 +3,7 @@
     <string name="btn_enable_family_mode">enable</string>
     <string name="btn_disable_family_mode">disable</string>
     <string name="btn_mark_home_ssid">mark home ssid</string>
+    <string name="btn_manage_marked_ssids">manage marked ssids</string>
     <string name="shared_prefs_file">PREFERENCES</string>
     <string name="shared_prefs_key_ssid">SSIDs</string>
     <string name="shared_prefs_key_ssid_separator">\u2026</string>
