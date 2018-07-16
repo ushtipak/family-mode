@@ -13,6 +13,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ListAdapter;
+import android.widget.ListView;
 import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
@@ -143,7 +145,8 @@ public class MainActivity extends AppCompatActivity {
         }.getClass().getEnclosingMethod().getName();
         Log.d(TAG, "-> " + methodName);
 
-
+        Intent intent = new Intent(getApplicationContext(), SSIDListManager.class);
+        startActivity(intent);
     }
 
     private BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {

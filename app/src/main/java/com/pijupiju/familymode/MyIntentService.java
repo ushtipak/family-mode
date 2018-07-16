@@ -12,13 +12,11 @@ public class MyIntentService extends IntentService {
         super("MyIntentService");
     }
 
-
     @Override
     protected void onHandleIntent(@Nullable Intent intent) {
         String methodName = new Object() {
         }.getClass().getEnclosingMethod().getName();
         Log.d(TAG, "-> " + methodName);
-
     }
 
 }

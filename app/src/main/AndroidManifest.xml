@@ -17,6 +17,7 @@
             </intent-filter>
         </activity>
         <service android:name=".MyIntentService" />
+        <activity android:name=".SSIDListManager" />
     </application>
 
 </manifest>
