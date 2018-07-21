@@ -5,16 +5,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
-import android.media.AudioManager;
-import android.net.wifi.WifiInfo;
-import android.net.wifi.WifiManager;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ListAdapter;
-import android.widget.ListView;
 import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
@@ -106,7 +101,7 @@ public class MainActivity extends AppCompatActivity {
         }.getClass().getEnclosingMethod().getName();
         Log.d(TAG, "-> " + methodName);
 
-        enableRinger();
+        RingerManager.enableRinger(this);
         if (myIntent != null) {
             stopService(myIntent);
         }
@@ -119,7 +114,7 @@ public class MainActivity extends AppCompatActivity {
         }.getClass().getEnclosingMethod().getName();
         Log.d(TAG, "-> " + methodName);
 
-        String currentSSID = getCurrentSSID();
+        String currentSSID = SSIDManager.getCurrentSSID(this);
         Log.d(TAG, "-> currentSSID: " + currentSSID);
 
         SharedPreferences preferences = getApplicationContext().getSharedPreferences(getString(R.string.shared_prefs_file), 0);
@@ -145,7 +140,7 @@ public class MainActivity extends AppCompatActivity {
         }.getClass().getEnclosingMethod().getName();
         Log.d(TAG, "-> " + methodName);
 
-        Intent intent = new Intent(getApplicationContext(), SSIDListManager.class);
+        Intent intent = new Intent(getApplicationContext(), SSIDManager.class);
         startActivity(intent);
     }
 
@@ -155,57 +150,17 @@ public class MainActivity extends AppCompatActivity {
             }.getClass().getEnclosingMethod().getName();
             Log.d(TAG, "-> " + methodName);
 
-            String currentSSID = getCurrentSSID();
+            String currentSSID = SSIDManager.getCurrentSSID(context);
             Log.d(TAG, "-> currentSSID: " + currentSSID);
 
             String targetSSIDName = "\"HOMEWIFI\"";
             if (currentSSID.equals(targetSSIDName)) {
                 Log.d(TAG, getString(R.string.usr_msg_wifi_connected_to_one_marked_home));
-                disableRinger();
+                RingerManager.disableRinger(context);
             } else {
                 Log.d(TAG, getString(R.string.usr_msg_wifi_connected_to_non_home));
-                enableRinger();
+                RingerManager.enableRinger(context);
             }
         }
     };
-
-    private String getCurrentSSID() {
-        WifiManager wifiManager = (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
-        assert wifiManager != null;
-        WifiInfo info = wifiManager.getConnectionInfo();
-        if (info != null) {
-            String currentSSID = info.getSSID();
-            Log.d(TAG, "-> currentSSID: " + currentSSID);
-
-            if (!currentSSID.equals("<unknown ssid>")) {
-                return currentSSID;
-            } else {
-                Log.d(TAG, getString(R.string.usr_msg_wifi_not_connected));
-            }
-        }
-        return "";
-    }
-
-    private void disableRinger() {
-        String methodName = new Object() {
-        }.getClass().getEnclosingMethod().getName();
-        Log.d(TAG, "-> " + methodName);
-
-        final AudioManager audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
-        assert audioManager != null;
-        audioManager.setRingerMode(AudioManager.RINGER_MODE_SILENT);
-        Log.d(TAG, "-> audioManager.getRingerMode: " + audioManager.getRingerMode());
-    }
-
-    private void enableRinger() {
-        String methodName = new Object() {
-        }.getClass().getEnclosingMethod().getName();
-        Log.d(TAG, "-> " + methodName);
-
-        final AudioManager audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
-        assert audioManager != null;
-        audioManager.setRingerMode(AudioManager.RINGER_MODE_NORMAL);
-        Log.d(TAG, "-> audioManager.getRingerMode: " + audioManager.getRingerMode());
-    }
-
 }

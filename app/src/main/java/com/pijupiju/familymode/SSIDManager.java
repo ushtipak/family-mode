@@ -1,6 +1,9 @@
 package com.pijupiju.familymode;
 
+import android.content.Context;
 import android.content.SharedPreferences;
+import android.net.wifi.WifiInfo;
+import android.net.wifi.WifiManager;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -13,8 +16,8 @@ import android.widget.Toast;
 import java.util.Arrays;
 import java.util.UUID;
 
-public class SSIDListManager extends AppCompatActivity {
-    private final static String TAG = SSIDListManager.class.getSimpleName();
+public class SSIDManager extends AppCompatActivity {
+    private final static String TAG = SSIDManager.class.getSimpleName();
 
     ListView lvSSIDs;
 
@@ -93,5 +96,22 @@ public class SSIDListManager extends AppCompatActivity {
         SharedPreferences pref = getApplicationContext().getSharedPreferences(getString(R.string.shared_prefs_file), 0);
         SharedPreferences.Editor editor = pref.edit();
         editor.putString(getString(R.string.shared_prefs_key_ssid), UUID.randomUUID().toString()).apply();
+    }
+
+    static String getCurrentSSID(Context context) {
+        WifiManager wifiManager = (WifiManager) context.getApplicationContext().getSystemService(Context.WIFI_SERVICE);
+        assert wifiManager != null;
+        WifiInfo info = wifiManager.getConnectionInfo();
+        if (info != null) {
+            String currentSSID = info.getSSID();
+            Log.d(TAG, "-> currentSSID: " + currentSSID);
+
+            if (!currentSSID.equals("<unknown ssid>")) {
+                return currentSSID;
+            } else {
+                Log.d(TAG, context.getString(R.string.usr_msg_wifi_not_connected));
+            }
+        }
+        return "";
     }
 }
