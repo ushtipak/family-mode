@@ -4,13 +4,11 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
     private final static String TAG = MainActivity.class.getSimpleName();
@@ -117,22 +115,7 @@ public class MainActivity extends AppCompatActivity {
         String currentSSID = SSIDManager.getCurrentSSID(this);
         Log.d(TAG, "-> currentSSID: " + currentSSID);
 
-        SharedPreferences preferences = getApplicationContext().getSharedPreferences(getString(R.string.shared_prefs_file), 0);
-        String allMarkedSSIDs = preferences.getString(getString(R.string.shared_prefs_key_ssid), "");
-        Log.d(TAG, "-> allMarkedSSIDs: " + allMarkedSSIDs);
-
-        if (allMarkedSSIDs.contains(currentSSID)) {
-            Log.d(TAG, getString(R.string.usr_msg_ssid_already_registered));
-            Toast.makeText(getApplicationContext(), getString(R.string.usr_msg_ssid_already_registered), Toast.LENGTH_LONG).show();
-        } else {
-            if (!allMarkedSSIDs.equals("")) {
-                allMarkedSSIDs += getString(R.string.shared_prefs_key_ssid_separator);
-                Log.d(TAG, "-> allMarkedSSIDs: " + allMarkedSSIDs);
-            }
-            allMarkedSSIDs += currentSSID;
-            Log.d(TAG, "-> allMarkedSSIDs: " + allMarkedSSIDs);
-            getSharedPreferences(getString(R.string.shared_prefs_file), MODE_PRIVATE).edit().putString(getString(R.string.shared_prefs_key_ssid), allMarkedSSIDs).apply();
-        }
+        SSIDManager.markHomeSSID(this, currentSSID);
     }
 
     private void manageMarkedSSIDs() {
