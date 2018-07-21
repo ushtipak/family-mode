@@ -1,7 +1,5 @@
 package com.pijupiju.familymode;
 
-import android.content.Context;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -60,7 +58,7 @@ public class SSIDListActivity extends AppCompatActivity {
                 }
             });
         } else {
-            Toast.makeText(getApplicationContext(), "THERE ARE NO SAVED WIFIES :D", Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(), getString(R.string.usr_msg_ssid_list_empty), Toast.LENGTH_LONG).show();
         }
     }
 }

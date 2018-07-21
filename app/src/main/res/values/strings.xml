@@ -11,4 +11,5 @@
     <string name="usr_msg_wifi_connected_to_one_marked_home">connected to home wifi, disabling ringer :)</string>
     <string name="usr_msg_wifi_connected_to_non_home">connected to some other wifi, don\'t care, enable ringer :)</string>
     <string name="usr_msg_wifi_not_connected">not connected to any wifi, enable ringer :))</string>
+    <string name="usr_msg_ssid_list_empty">there are no saved wifi</string>
 </resources>
