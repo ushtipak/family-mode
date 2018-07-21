@@ -16,8 +16,8 @@ import android.widget.Toast;
 import java.util.Arrays;
 import java.util.UUID;
 
-public class SSIDManager extends AppCompatActivity {
-    private final static String TAG = SSIDManager.class.getSimpleName();
+public class SSIDListActivity extends AppCompatActivity {
+    private final static String TAG = SSIDListActivity.class.getSimpleName();
 
     ListView lvSSIDs;
 
@@ -91,7 +91,7 @@ public class SSIDManager extends AppCompatActivity {
             Log.d(TAG, "-> allMarkedSSIDs: " + Arrays.toString(allMarkedSSIDs));
 
 
-            ListAdapter listAdapter = new MyAdapter(this, allMarkedSSIDs);
+            ListAdapter listAdapter = new MyArrayAdapter(this, allMarkedSSIDs);
             ListView listView = (ListView) findViewById(R.id.lvSSIDs);
             listView.setAdapter(listAdapter);
             listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {

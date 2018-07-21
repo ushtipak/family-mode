@@ -112,10 +112,10 @@ public class MainActivity extends AppCompatActivity {
         }.getClass().getEnclosingMethod().getName();
         Log.d(TAG, "-> " + methodName);
 
-        String currentSSID = SSIDManager.getCurrentSSID(this);
+        String currentSSID = SSIDListActivity.getCurrentSSID(this);
         Log.d(TAG, "-> currentSSID: " + currentSSID);
 
-        SSIDManager.markHomeSSID(this, currentSSID);
+        SSIDListActivity.markHomeSSID(this, currentSSID);
     }
 
     private void manageMarkedSSIDs() {
@@ -123,7 +123,7 @@ public class MainActivity extends AppCompatActivity {
         }.getClass().getEnclosingMethod().getName();
         Log.d(TAG, "-> " + methodName);
 
-        Intent intent = new Intent(getApplicationContext(), SSIDManager.class);
+        Intent intent = new Intent(getApplicationContext(), SSIDListActivity.class);
         startActivity(intent);
     }
 
@@ -133,7 +133,7 @@ public class MainActivity extends AppCompatActivity {
             }.getClass().getEnclosingMethod().getName();
             Log.d(TAG, "-> " + methodName);
 
-            String currentSSID = SSIDManager.getCurrentSSID(context);
+            String currentSSID = SSIDListActivity.getCurrentSSID(context);
             Log.d(TAG, "-> currentSSID: " + currentSSID);
 
             String targetSSIDName = "\"HOMEWIFI\"";

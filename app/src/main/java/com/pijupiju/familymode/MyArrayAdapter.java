@@ -10,10 +10,10 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
-public class MyAdapter extends ArrayAdapter<String> {
-    private final static String TAG = MyAdapter.class.getSimpleName();
+public class MyArrayAdapter extends ArrayAdapter<String> {
+    private final static String TAG = MyArrayAdapter.class.getSimpleName();
 
-    MyAdapter(@NonNull Context context, String[] values) {
+    MyArrayAdapter(@NonNull Context context, String[] values) {
         super(context, R.layout.row_layout, values);
     }
 
