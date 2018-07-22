@@ -10,6 +10,8 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
+import java.util.Arrays;
+
 public class MainActivity extends AppCompatActivity {
     private final static String TAG = MainActivity.class.getSimpleName();
     Button btnManageService;
@@ -136,13 +138,17 @@ public class MainActivity extends AppCompatActivity {
             String currentSSID = SSIDManager.getCurrentSSID(context);
             Log.d(TAG, "-> currentSSID: " + currentSSID);
 
-            String targetSSID = "\"HOMEWIFI\"";
-            if (currentSSID.equals(targetSSID)) {
-                Log.d(TAG, getString(R.string.msg_wifi_connected_to_marked));
-                RingerManager.disableRinger(context);
-            } else {
-                Log.d(TAG, getString(R.string.msg_wifi_connected_to_non_marked));
-                RingerManager.enableRinger(context);
+            String[] markedSSIDs = SSIDManager.getMarkedSSIDs(getApplicationContext());
+            Log.d(TAG, "-> markedSSIDs: " + Arrays.toString(markedSSIDs));
+
+            if (markedSSIDs != null) {
+                if (Arrays.asList(markedSSIDs).contains(currentSSID)) {
+                    Log.d(TAG, getString(R.string.msg_wifi_connected_to_marked));
+                    RingerManager.disableRinger(context);
+                } else {
+                    Log.d(TAG, getString(R.string.msg_wifi_connected_to_non_marked));
+                    RingerManager.enableRinger(context);
+                }
             }
         }
     };
