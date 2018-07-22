@@ -54,7 +54,7 @@ public class SSIDListActivity extends AppCompatActivity {
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                     String selectedSSID = String.valueOf(parent.getItemAtPosition(position));
                     Toast.makeText(getApplicationContext(), selectedSSID, Toast.LENGTH_LONG).show();
-                    SSIDManager.removeSSIDFromMarked(getApplicationContext(), selectedSSID);
+                    SSIDManager.removeMarkedSSID(getApplicationContext(), selectedSSID);
                 }
             });
         } else {

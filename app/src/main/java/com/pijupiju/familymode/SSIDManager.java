@@ -7,8 +7,8 @@ import android.net.wifi.WifiManager;
 import android.util.Log;
 import android.widget.Toast;
 
+import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.UUID;
 
 import static android.content.Context.MODE_PRIVATE;
 
@@ -21,37 +21,36 @@ class SSIDManager {
         WifiInfo info = wifiManager.getConnectionInfo();
         if (info != null) {
             String currentSSID = info.getSSID();
+            currentSSID = currentSSID.substring(1, currentSSID.length() - 1);
             Log.d(TAG, "-> currentSSID: " + currentSSID);
 
             if (!currentSSID.equals("<unknown ssid>")) {
                 return currentSSID;
-            } else {
-                Log.d(TAG, context.getString(R.string.usr_msg_wifi_not_connected));
             }
         }
         return "";
     }
 
-    static void markHomeSSID(Context context, String currentSSID) {
+    static void markSSID(Context context, String currentSSID) {
         String methodName = new Object() {
         }.getClass().getEnclosingMethod().getName();
         Log.d(TAG, "-> " + methodName);
 
         SharedPreferences preferences = context.getApplicationContext().getSharedPreferences(context.getString(R.string.shared_prefs_file), 0);
-        String allMarkedSSIDs = preferences.getString(context.getString(R.string.shared_prefs_key_ssid), "");
-        Log.d(TAG, "-> allMarkedSSIDs: " + allMarkedSSIDs);
+        String markedSSIDBundle = preferences.getString(context.getString(R.string.shared_prefs_key_ssid), "");
+        Log.d(TAG, "-> markedSSIDBundle: " + markedSSIDBundle);
 
-        if (allMarkedSSIDs.contains(currentSSID)) {
+        if (markedSSIDBundle.contains(currentSSID)) {
             Log.d(TAG, context.getString(R.string.usr_msg_ssid_already_registered));
             Toast.makeText(context.getApplicationContext(), context.getString(R.string.usr_msg_ssid_already_registered), Toast.LENGTH_LONG).show();
         } else {
-            if (!allMarkedSSIDs.equals("")) {
-                allMarkedSSIDs += context.getString(R.string.shared_prefs_key_ssid_separator);
-                Log.d(TAG, "-> allMarkedSSIDs: " + allMarkedSSIDs);
+            if (!markedSSIDBundle.equals("")) {
+                markedSSIDBundle += context.getString(R.string.shared_prefs_key_ssid_separator);
+                Log.d(TAG, "-> markedSSIDBundle: " + markedSSIDBundle);
             }
-            allMarkedSSIDs += currentSSID;
-            Log.d(TAG, "-> allMarkedSSIDs: " + allMarkedSSIDs);
-            context.getSharedPreferences(context.getString(R.string.shared_prefs_file), MODE_PRIVATE).edit().putString(context.getString(R.string.shared_prefs_key_ssid), allMarkedSSIDs).apply();
+            markedSSIDBundle += currentSSID;
+            Log.d(TAG, "-> markedSSIDBundle: " + markedSSIDBundle);
+            context.getSharedPreferences(context.getString(R.string.shared_prefs_file), MODE_PRIVATE).edit().putString(context.getString(R.string.shared_prefs_key_ssid), markedSSIDBundle).apply();
         }
     }
 
@@ -61,29 +60,48 @@ class SSIDManager {
         Log.d(TAG, "-> " + methodName);
 
         SharedPreferences pref = context.getApplicationContext().getSharedPreferences(context.getString(R.string.shared_prefs_file), 0);
-        String markedSSIDsSerialized = pref.getString(context.getString(R.string.shared_prefs_key_ssid), "");
-        Log.d(TAG, "-> markedSSIDsSerialized: " + markedSSIDsSerialized);
+        String markedSSIDBundle = pref.getString(context.getString(R.string.shared_prefs_key_ssid), "");
+        Log.d(TAG, "-> markedSSIDBundle: " + markedSSIDBundle);
 
-        if (!markedSSIDsSerialized.equals("")) {
-            String[] markedSSIDs = markedSSIDsSerialized.split(context.getString(R.string.shared_prefs_key_ssid_separator));
+        if (!markedSSIDBundle.equals("")) {
+            String[] markedSSIDs = markedSSIDBundle.split(context.getString(R.string.shared_prefs_key_ssid_separator));
             Log.d(TAG, "-> markedSSIDs: " + Arrays.toString(markedSSIDs));
-            for (int i = 0; i < markedSSIDs.length; i++) {
-                Log.d(TAG, "markedSSIDs[" + i + "]: " + markedSSIDs[i]);
-            }
             return markedSSIDs;
         } else {
             return null;
         }
     }
 
-    static void removeSSIDFromMarked(Context context, String SSIDName) {
+    static void removeMarkedSSID(Context context, String targetSSID) {
         String methodName = new Object() {
         }.getClass().getEnclosingMethod().getName();
         Log.d(TAG, "-> " + methodName);
 
-        SharedPreferences pref = context.getApplicationContext().getSharedPreferences(context.getString(R.string.shared_prefs_file), 0);
-        SharedPreferences.Editor editor = pref.edit();
-        editor.putString(context.getString(R.string.shared_prefs_key_ssid), UUID.randomUUID().toString()).apply();
+        String[] markedSSIDs = SSIDManager.getMarkedSSIDs(context);
+        Log.d(TAG, "-> markedSSIDs: " + Arrays.toString(markedSSIDs));
+
+        if (markedSSIDs != null) {
+            if (Arrays.asList(markedSSIDs).contains(targetSSID)) {
+                ArrayList<String> preservedSSIDs = new ArrayList<>();
+                for (String markedSSID : markedSSIDs) {
+                    if (!markedSSID.equals(targetSSID)) {
+                        preservedSSIDs.add(markedSSID);
+                    }
+                }
+                Log.d(TAG, "-> preservedSSIDs: " + preservedSSIDs);
+
+                StringBuilder markedSSIDBundle = new StringBuilder();
+                for (int i = 0; i < preservedSSIDs.size(); i++) {
+                    markedSSIDBundle.append(preservedSSIDs.get(i));
+                    if (i != preservedSSIDs.size() - 1) {
+                        markedSSIDBundle.append(context.getString(R.string.shared_prefs_key_ssid_separator));
+                    }
+                }
+
+                Log.d(TAG, "-> markedSSIDBundle: " + markedSSIDBundle);
+                context.getSharedPreferences(context.getString(R.string.shared_prefs_file), MODE_PRIVATE).edit().putString(context.getString(R.string.shared_prefs_key_ssid), String.valueOf(markedSSIDBundle)).apply();
+            }
+        }
     }
 
 }

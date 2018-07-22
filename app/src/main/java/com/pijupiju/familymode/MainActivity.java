@@ -115,7 +115,7 @@ public class MainActivity extends AppCompatActivity {
         String currentSSID = SSIDManager.getCurrentSSID(this);
         Log.d(TAG, "-> currentSSID: " + currentSSID);
 
-        SSIDManager.markHomeSSID(this, currentSSID);
+        SSIDManager.markSSID(this, currentSSID);
     }
 
     private void manageMarkedSSIDs() {
