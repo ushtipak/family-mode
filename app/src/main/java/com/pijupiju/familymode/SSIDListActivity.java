@@ -53,12 +53,13 @@ public class SSIDListActivity extends AppCompatActivity {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                     String selectedSSID = String.valueOf(parent.getItemAtPosition(position));
-                    Toast.makeText(getApplicationContext(), selectedSSID, Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), getString(R.string.msg_ssid_removed), Toast.LENGTH_SHORT).show();
                     SSIDManager.removeMarkedSSID(getApplicationContext(), selectedSSID);
+                    displayMarkedSSIDs();
                 }
             });
         } else {
-            Toast.makeText(getApplicationContext(), getString(R.string.msg_ssid_empty_list), Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(), getString(R.string.msg_ssid_empty_list), Toast.LENGTH_SHORT).show();
         }
     }
 }

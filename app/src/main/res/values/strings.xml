@@ -11,6 +11,8 @@
     <string name="shared_prefs_key_ssid_separator">\u2026</string>
 
     <string name="msg_ssid_already_registered">current wifi already marked</string>
+    <string name="msg_ssid_marked">marked current wifi as home</string>
+    <string name="msg_ssid_removed">marked wifi removed</string>
     <string name="msg_ssid_empty_list">there are no saved wifi</string>
     <string name="msg_wifi_connected_to_marked">connected to home wifi, disabling ringer :)</string>
     <string name="msg_wifi_connected_to_non_marked">connected to other wifi, don\'t care, enable ringer :)</string>
