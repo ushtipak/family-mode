@@ -92,7 +92,7 @@ public class MainActivity extends AppCompatActivity {
 
         Intent intent = new Intent(this, MyIntentService.class);
         startService(intent);
-        registerReceiver(broadcastReceiver, new IntentFilter("android.net.wifi.STATE_CHANGE"));
+        registerReceiver(MyIntentService.broadcastReceiver, new IntentFilter("android.net.wifi.STATE_CHANGE"));
         btnManageService.setText(R.string.btn_manage_service_disable);
     }
 
@@ -128,28 +128,4 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(getApplicationContext(), SSIDListActivity.class);
         startActivity(intent);
     }
-
-    private BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
-        public void onReceive(Context context, Intent intent) {
-            String methodName = new Object() {
-            }.getClass().getEnclosingMethod().getName();
-            Log.d(TAG, "-> " + methodName);
-
-            String currentSSID = SSIDManager.getCurrentSSID(context);
-            Log.d(TAG, "-> currentSSID: " + currentSSID);
-
-            String[] markedSSIDs = SSIDManager.getMarkedSSIDs(getApplicationContext());
-            Log.d(TAG, "-> markedSSIDs: " + Arrays.toString(markedSSIDs));
-
-            if (markedSSIDs != null) {
-                if (Arrays.asList(markedSSIDs).contains(currentSSID)) {
-                    Log.d(TAG, getString(R.string.msg_wifi_connected_to_marked));
-                    RingerManager.disableRinger(context);
-                } else {
-                    Log.d(TAG, getString(R.string.msg_wifi_connected_to_non_marked));
-                    RingerManager.enableRinger(context);
-                }
-            }
-        }
-    };
 }
