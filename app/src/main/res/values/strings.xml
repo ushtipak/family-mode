@@ -1,15 +1,19 @@
 <resources>
     <string name="app_name">Family Mode</string>
-    <string name="btn_enable_family_mode">enable</string>
-    <string name="btn_disable_family_mode">disable</string>
-    <string name="btn_mark_home_ssid">mark home ssid</string>
+
+    <string name="btn_manage_service_enable">enable</string>
+    <string name="btn_manage_service_disable">disable</string>
+    <string name="btn_mark_ssid">mark home ssid</string>
     <string name="btn_manage_marked_ssids">manage marked ssids</string>
+
     <string name="shared_prefs_file">PREFERENCES</string>
     <string name="shared_prefs_key_ssid">SSIDs</string>
     <string name="shared_prefs_key_ssid_separator">\u2026</string>
-    <string name="usr_msg_ssid_already_registered">current wifi already marked!</string>
-    <string name="usr_msg_wifi_connected_to_one_marked_home">connected to home wifi, disabling ringer :)</string>
-    <string name="usr_msg_wifi_connected_to_non_home">connected to some other wifi, don\'t care, enable ringer :)</string>
-    <string name="usr_msg_wifi_not_connected">not connected to any wifi, enable ringer :))</string>
-    <string name="usr_msg_ssid_list_empty">there are no saved wifi</string>
+
+    <string name="msg_ssid_already_registered">current wifi already marked</string>
+    <string name="msg_ssid_empty_list">there are no saved wifi</string>
+    <string name="msg_wifi_connected_to_marked">connected to home wifi, disabling ringer :)</string>
+    <string name="msg_wifi_connected_to_non_marked">connected to other wifi, don\'t care, enable ringer :)</string>
+    <string name="msg_wifi_not_connected">not connected to any wifi, enable ringer :))</string>
+
 </resources>

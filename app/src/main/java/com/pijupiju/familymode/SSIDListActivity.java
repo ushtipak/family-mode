@@ -23,9 +23,9 @@ public class SSIDListActivity extends AppCompatActivity {
         }.getClass().getEnclosingMethod().getName();
         Log.d(TAG, "-> " + methodName);
 
-        setContentView(R.layout.activity_ssidlist_manager);
+        setContentView(R.layout.activity_ssidlist);
         initViews();
-        showMarkedSSIDs();
+        displayMarkedSSIDs();
     }
 
     private void initViews() {
@@ -36,7 +36,7 @@ public class SSIDListActivity extends AppCompatActivity {
         lvSSIDs = (ListView) findViewById(R.id.lvSSIDs);
     }
 
-    private void showMarkedSSIDs() {
+    private void displayMarkedSSIDs() {
         String methodName = new Object() {
         }.getClass().getEnclosingMethod().getName();
         Log.d(TAG, "-> " + methodName);
@@ -58,7 +58,7 @@ public class SSIDListActivity extends AppCompatActivity {
                 }
             });
         } else {
-            Toast.makeText(getApplicationContext(), getString(R.string.usr_msg_ssid_list_empty), Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(), getString(R.string.msg_ssid_empty_list), Toast.LENGTH_LONG).show();
         }
     }
 }

@@ -14,14 +14,14 @@ public class MyArrayAdapter extends ArrayAdapter<String> {
     private final static String TAG = MyArrayAdapter.class.getSimpleName();
 
     MyArrayAdapter(@NonNull Context context, String[] values) {
-        super(context, R.layout.row_layout, values);
+        super(context, R.layout.item_ssid, values);
     }
 
     static class ViewHolder {
-        TextView tvSSIDRow;
+        TextView tvSSID;
 
         ViewHolder(View v) {
-            tvSSIDRow = (TextView) v.findViewById(R.id.tvSSIDRow);
+            tvSSID = (TextView) v.findViewById(R.id.tvSSID);
         }
     }
 
@@ -34,14 +34,14 @@ public class MyArrayAdapter extends ArrayAdapter<String> {
 
         ViewHolder viewHolder;
         if (convertView == null) {
-            convertView = LayoutInflater.from(parent.getContext()).inflate(R.layout.row_layout, parent, false);
+            convertView = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_ssid, parent, false);
             viewHolder = new ViewHolder(convertView);
             convertView.setTag(viewHolder);
         } else {
             viewHolder = (ViewHolder) convertView.getTag();
         }
-        String SSIDname = getItem(position);
-        viewHolder.tvSSIDRow.setText(SSIDname);
+        String targetSSID = getItem(position);
+        viewHolder.tvSSID.setText(targetSSID);
         return convertView;
     }
 }

@@ -7,24 +7,24 @@
     tools:context=".MainActivity">
 
     <Button
-        android:id="@+id/btnStartService"
+        android:id="@+id/btnManageService"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/btn_enable_family_mode"
-        app:layout_constraintBottom_toTopOf="@id/btnMarkHomeSSID"
+        android:text="@string/btn_manage_service_enable"
+        app:layout_constraintBottom_toTopOf="@id/btnMarkSSID"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/btnMarkHomeSSID"
+        android:id="@+id/btnMarkSSID"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/btn_mark_home_ssid"
+        android:text="@string/btn_mark_ssid"
         app:layout_constraintBottom_toBottomOf="@id/btnManageMarkedSSIDs"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/btnStartService"/>
+        app:layout_constraintTop_toBottomOf="@id/btnManageService" />
 
     <Button
         android:id="@+id/btnManageMarkedSSIDs"
@@ -34,7 +34,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/btnMarkHomeSSID"/>
-
+        app:layout_constraintTop_toBottomOf="@id/btnMarkSSID" />
 
 </android.support.constraint.ConstraintLayout>

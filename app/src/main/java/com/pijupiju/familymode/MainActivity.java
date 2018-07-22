@@ -12,8 +12,8 @@ import android.widget.Button;
 
 public class MainActivity extends AppCompatActivity {
     private final static String TAG = MainActivity.class.getSimpleName();
-    Button btnStartService;
-    Button btnMarkHomeSSID;
+    Button btnManageService;
+    Button btnMarkSSID;
     Button btnManageMarkedSSIDs;
     Intent myIntent;
     Boolean serviceEnabled = false;
@@ -44,19 +44,19 @@ public class MainActivity extends AppCompatActivity {
         }.getClass().getEnclosingMethod().getName();
         Log.d(TAG, "-> " + methodName);
 
-        btnStartService = (Button) findViewById(R.id.btnStartService);
-        btnStartService.setOnClickListener(new View.OnClickListener() {
+        btnManageService = (Button) findViewById(R.id.btnManageService);
+        btnManageService.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 manageService();
             }
         });
 
-        btnMarkHomeSSID = (Button) findViewById(R.id.btnMarkHomeSSID);
-        btnMarkHomeSSID.setOnClickListener(new View.OnClickListener() {
+        btnMarkSSID = (Button) findViewById(R.id.btnMarkSSID);
+        btnMarkSSID.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                markHomeSSID();
+                markSSID();
             }
         });
 
@@ -91,7 +91,7 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(this, MyIntentService.class);
         startService(intent);
         registerReceiver(broadcastReceiver, new IntentFilter("android.net.wifi.STATE_CHANGE"));
-        btnStartService.setText(R.string.btn_disable_family_mode);
+        btnManageService.setText(R.string.btn_manage_service_disable);
     }
 
     private void stopService() {
@@ -104,10 +104,10 @@ public class MainActivity extends AppCompatActivity {
             stopService(myIntent);
         }
         myIntent = null;
-        btnStartService.setText(R.string.btn_enable_family_mode);
+        btnManageService.setText(R.string.btn_manage_service_enable);
     }
 
-    private void markHomeSSID() {
+    private void markSSID() {
         String methodName = new Object() {
         }.getClass().getEnclosingMethod().getName();
         Log.d(TAG, "-> " + methodName);
@@ -136,12 +136,12 @@ public class MainActivity extends AppCompatActivity {
             String currentSSID = SSIDManager.getCurrentSSID(context);
             Log.d(TAG, "-> currentSSID: " + currentSSID);
 
-            String targetSSIDName = "\"HOMEWIFI\"";
-            if (currentSSID.equals(targetSSIDName)) {
-                Log.d(TAG, getString(R.string.usr_msg_wifi_connected_to_one_marked_home));
+            String targetSSID = "\"HOMEWIFI\"";
+            if (currentSSID.equals(targetSSID)) {
+                Log.d(TAG, getString(R.string.msg_wifi_connected_to_marked));
                 RingerManager.disableRinger(context);
             } else {
-                Log.d(TAG, getString(R.string.usr_msg_wifi_connected_to_non_home));
+                Log.d(TAG, getString(R.string.msg_wifi_connected_to_non_marked));
                 RingerManager.enableRinger(context);
             }
         }

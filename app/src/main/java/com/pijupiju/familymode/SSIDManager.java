@@ -41,8 +41,8 @@ class SSIDManager {
         Log.d(TAG, "-> markedSSIDBundle: " + markedSSIDBundle);
 
         if (markedSSIDBundle.contains(currentSSID)) {
-            Log.d(TAG, context.getString(R.string.usr_msg_ssid_already_registered));
-            Toast.makeText(context.getApplicationContext(), context.getString(R.string.usr_msg_ssid_already_registered), Toast.LENGTH_LONG).show();
+            Log.d(TAG, context.getString(R.string.msg_ssid_already_registered));
+            Toast.makeText(context.getApplicationContext(), context.getString(R.string.msg_ssid_already_registered), Toast.LENGTH_LONG).show();
         } else {
             if (!markedSSIDBundle.equals("")) {
                 markedSSIDBundle += context.getString(R.string.shared_prefs_key_ssid_separator);
