@@ -18,5 +18,4 @@ public class MyIntentService extends IntentService {
         }.getClass().getEnclosingMethod().getName();
         Log.d(TAG, "-> " + methodName);
     }
-
 }

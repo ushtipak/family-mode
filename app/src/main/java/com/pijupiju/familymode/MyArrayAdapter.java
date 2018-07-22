@@ -17,6 +17,14 @@ public class MyArrayAdapter extends ArrayAdapter<String> {
         super(context, R.layout.row_layout, values);
     }
 
+    static class ViewHolder {
+        TextView tvSSIDRow;
+
+        ViewHolder(View v) {
+            tvSSIDRow = (TextView) v.findViewById(R.id.tvSSIDRow);
+        }
+    }
+
     @NonNull
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
@@ -24,11 +32,16 @@ public class MyArrayAdapter extends ArrayAdapter<String> {
         }.getClass().getEnclosingMethod().getName();
         Log.d(TAG, "-> " + methodName);
 
-        LayoutInflater layoutInflater = LayoutInflater.from(getContext());
-        View myView = layoutInflater.inflate(R.layout.row_layout, parent, false);
+        ViewHolder viewHolder;
+        if (convertView == null) {
+            convertView = LayoutInflater.from(parent.getContext()).inflate(R.layout.row_layout, parent, false);
+            viewHolder = new ViewHolder(convertView);
+            convertView.setTag(viewHolder);
+        } else {
+            viewHolder = (ViewHolder) convertView.getTag();
+        }
         String SSIDname = getItem(position);
-        TextView tvSSIDRow = (TextView) myView.findViewById(R.id.tvSSIDRow);
-        tvSSIDRow.setText(SSIDname);
-        return myView;
+        viewHolder.tvSSIDRow.setText(SSIDname);
+        return convertView;
     }
 }
