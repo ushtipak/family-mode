@@ -5,10 +5,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CompoundButton;
+import android.widget.Switch;
 
 public class DiscloseActivity extends AppCompatActivity {
     private final static String TAG = DiscloseActivity.class.getSimpleName();
-    Button btnToggleService;
+    Switch swService;
     Boolean serviceEnabled = false;
 
     @Override
@@ -27,10 +29,10 @@ public class DiscloseActivity extends AppCompatActivity {
         }.getClass().getEnclosingMethod().getName();
         Log.d(TAG, "-> " + methodName);
 
-        btnToggleService = (Button) findViewById(R.id.btnToggleService);
-        btnToggleService.setOnClickListener(new View.OnClickListener() {
+        swService = (Switch) findViewById(R.id.swService);
+        swService.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
-            public void onClick(View view) {
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 manageService();
             }
         });
