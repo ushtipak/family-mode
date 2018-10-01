@@ -21,9 +21,9 @@ public class WifiReceiver extends BroadcastReceiver {
             Boolean serviceEnabled = preferences.getBoolean(context.getString(R.string.shared_prefs_service_enabled), false);
 
             if (serviceEnabled) {
-                Intent notifyUser = new Intent(context, SSIDListActivity.class);
-                notifyUser.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                context.startActivity(notifyUser);
+                Intent discloseIntent = new Intent(context, DiscloseActivity.class);
+                discloseIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                context.startActivity(discloseIntent);
 
                 String currentSSID = SSIDManager.getCurrentSSID(context);
                 Log.d(TAG, "-> currentSSID: " + currentSSID);
