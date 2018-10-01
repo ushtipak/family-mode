@@ -35,7 +35,7 @@ public class MainActivity extends AppCompatActivity {
         }.getClass().getEnclosingMethod().getName();
         Log.d(TAG, "-> " + methodName);
 
-        stopService();
+        DisableFamilyMode();
     }
 
     private void initViews() {
@@ -50,6 +50,10 @@ public class MainActivity extends AppCompatActivity {
                 manageService();
             }
         });
+
+        SharedPreferences preferences = getApplicationContext().getSharedPreferences(getString(R.string.shared_prefs_file), 0);
+        serviceEnabled = preferences.getBoolean(getString(R.string.shared_prefs_service_enabled), false);
+        swManageService.setChecked(serviceEnabled);
 
         btnMarkSSID = (Button) findViewById(R.id.btnMarkSSID);
         btnMarkSSID.setOnClickListener(new View.OnClickListener() {
@@ -77,28 +81,30 @@ public class MainActivity extends AppCompatActivity {
         serviceEnabled = preferences.getBoolean(getString(R.string.shared_prefs_service_enabled), false);
 
         if (serviceEnabled) {
-            stopService();
+            DisableFamilyMode();
         } else {
-            startService();
+            EnableFamilyMode();
         }
     }
 
-    private void startService() {
+    private void EnableFamilyMode() {
         String methodName = new Object() {
         }.getClass().getEnclosingMethod().getName();
         Log.d(TAG, "-> " + methodName);
 
+        swManageService.setChecked(true);
         getSharedPreferences(getString(R.string.shared_prefs_file), MODE_PRIVATE).edit().putBoolean(getString(R.string.shared_prefs_service_enabled), true).apply();
-        WifiReceiver.manageRingerBasedOnSSID(getApplicationContext());
+        WifiReceiver.manageRingerBasedOnSSID(getApplicationContext(), false);
     }
 
-    private void stopService() {
+    private void DisableFamilyMode() {
         String methodName = new Object() {
         }.getClass().getEnclosingMethod().getName();
         Log.d(TAG, "-> " + methodName);
 
         RingerManager.enableRinger(this);
         getSharedPreferences(getString(R.string.shared_prefs_file), MODE_PRIVATE).edit().putBoolean(getString(R.string.shared_prefs_service_enabled), false).apply();
+        swManageService.setChecked(false);
     }
 
     private void markSSID() {

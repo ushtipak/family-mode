@@ -21,15 +21,17 @@ public class WifiReceiver extends BroadcastReceiver {
             Boolean serviceEnabled = preferences.getBoolean(context.getString(R.string.shared_prefs_service_enabled), false);
 
             if (serviceEnabled) {
-                manageRingerBasedOnSSID(context);
+                manageRingerBasedOnSSID(context, true);
             }
         }
     }
 
-    static void manageRingerBasedOnSSID(Context context) {
-        Intent discloseIntent = new Intent(context, MainActivity.class);
-        discloseIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        context.startActivity(discloseIntent);
+    static void manageRingerBasedOnSSID(Context context, Boolean automatic) {
+        if (automatic) {
+            Intent intent = new Intent(context, MainActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            context.startActivity(intent);
+        }
 
         String currentSSID = SSIDManager.getCurrentSSID(context);
         Log.d(TAG, "-> currentSSID: " + currentSSID);
