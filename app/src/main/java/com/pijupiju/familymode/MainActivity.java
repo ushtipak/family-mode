@@ -44,16 +44,15 @@ public class MainActivity extends AppCompatActivity {
         Log.d(TAG, "-> " + methodName);
 
         swManageService = (Switch) findViewById(R.id.swManageService);
+        SharedPreferences preferences = getApplicationContext().getSharedPreferences(getString(R.string.shared_prefs_file), 0);
+        serviceEnabled = preferences.getBoolean(getString(R.string.shared_prefs_service_enabled), false);
+        swManageService.setChecked(serviceEnabled);
         swManageService.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 manageService();
             }
         });
-
-        SharedPreferences preferences = getApplicationContext().getSharedPreferences(getString(R.string.shared_prefs_file), 0);
-        serviceEnabled = preferences.getBoolean(getString(R.string.shared_prefs_service_enabled), false);
-        swManageService.setChecked(serviceEnabled);
 
         btnMarkSSID = (Button) findViewById(R.id.btnMarkSSID);
         btnMarkSSID.setOnClickListener(new View.OnClickListener() {
