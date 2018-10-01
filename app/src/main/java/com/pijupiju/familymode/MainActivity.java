@@ -1,23 +1,18 @@
 package com.pijupiju.familymode;
 
-import android.content.BroadcastReceiver;
-import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
-import java.util.Arrays;
-
 public class MainActivity extends AppCompatActivity {
     private final static String TAG = MainActivity.class.getSimpleName();
     Button btnManageService;
     Button btnMarkSSID;
     Button btnManageMarkedSSIDs;
-    Intent myIntent;
     Boolean serviceEnabled = false;
 
     @Override
@@ -76,12 +71,13 @@ public class MainActivity extends AppCompatActivity {
         }.getClass().getEnclosingMethod().getName();
         Log.d(TAG, "-> " + methodName);
 
+        SharedPreferences preferences = getApplicationContext().getSharedPreferences(getString(R.string.shared_prefs_file), 0);
+        serviceEnabled = preferences.getBoolean(getString(R.string.shared_prefs_service_enabled), false);
+
         if (serviceEnabled) {
             stopService();
-            serviceEnabled = false;
         } else {
             startService();
-            serviceEnabled = true;
         }
     }
 
@@ -90,9 +86,7 @@ public class MainActivity extends AppCompatActivity {
         }.getClass().getEnclosingMethod().getName();
         Log.d(TAG, "-> " + methodName);
 
-        Intent intent = new Intent(this, MyIntentService.class);
-        startService(intent);
-        registerReceiver(MyIntentService.broadcastReceiver, new IntentFilter("android.net.wifi.STATE_CHANGE"));
+        getSharedPreferences(getString(R.string.shared_prefs_file), MODE_PRIVATE).edit().putBoolean(getString(R.string.shared_prefs_service_enabled), true).apply();
         btnManageService.setText(R.string.btn_manage_service_disable);
     }
 
@@ -102,10 +96,7 @@ public class MainActivity extends AppCompatActivity {
         Log.d(TAG, "-> " + methodName);
 
         RingerManager.enableRinger(this);
-        if (myIntent != null) {
-            stopService(myIntent);
-        }
-        myIntent = null;
+        getSharedPreferences(getString(R.string.shared_prefs_file), MODE_PRIVATE).edit().putBoolean(getString(R.string.shared_prefs_service_enabled), false).apply();
         btnManageService.setText(R.string.btn_manage_service_enable);
     }
 

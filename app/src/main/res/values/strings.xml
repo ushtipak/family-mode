@@ -7,6 +7,7 @@
     <string name="btn_manage_marked_ssids">manage marked ssids</string>
 
     <string name="shared_prefs_file">PREFERENCES</string>
+    <string name="shared_prefs_service_enabled">Service Enabled</string>
     <string name="shared_prefs_key_ssid">SSIDs</string>
     <string name="shared_prefs_key_ssid_separator">\u2026</string>
 
