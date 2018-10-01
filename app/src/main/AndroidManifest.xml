@@ -17,7 +17,6 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".DiscloseActivity" />
         <activity android:name=".SSIDListActivity" />
         <receiver android:name=".WifiReceiver">
             <intent-filter>

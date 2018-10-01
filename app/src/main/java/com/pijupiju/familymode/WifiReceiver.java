@@ -21,26 +21,31 @@ public class WifiReceiver extends BroadcastReceiver {
             Boolean serviceEnabled = preferences.getBoolean(context.getString(R.string.shared_prefs_service_enabled), false);
 
             if (serviceEnabled) {
-                Intent discloseIntent = new Intent(context, DiscloseActivity.class);
-                discloseIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                context.startActivity(discloseIntent);
-
-                String currentSSID = SSIDManager.getCurrentSSID(context);
-                Log.d(TAG, "-> currentSSID: " + currentSSID);
-
-                String[] markedSSIDs = SSIDManager.getMarkedSSIDs(context.getApplicationContext());
-                Log.d(TAG, "-> markedSSIDs: " + Arrays.toString(markedSSIDs));
-
-                if (markedSSIDs != null) {
-                    if (Arrays.asList(markedSSIDs).contains(currentSSID)) {
-                        Log.d(TAG, context.getString(R.string.msg_wifi_connected_to_marked));
-                        RingerManager.disableRinger(context);
-                    } else {
-                        Log.d(TAG, context.getString(R.string.msg_wifi_connected_to_non_marked));
-                        RingerManager.enableRinger(context);
-                    }
-                }
+                manageRingerBasedOnSSID(context);
             }
         }
+    }
+
+    static void manageRingerBasedOnSSID(Context context) {
+        Intent discloseIntent = new Intent(context, MainActivity.class);
+        discloseIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        context.startActivity(discloseIntent);
+
+        String currentSSID = SSIDManager.getCurrentSSID(context);
+        Log.d(TAG, "-> currentSSID: " + currentSSID);
+
+        String[] markedSSIDs = SSIDManager.getMarkedSSIDs(context.getApplicationContext());
+        Log.d(TAG, "-> markedSSIDs: " + Arrays.toString(markedSSIDs));
+
+        if (markedSSIDs != null) {
+            if (Arrays.asList(markedSSIDs).contains(currentSSID)) {
+                Log.d(TAG, context.getString(R.string.msg_wifi_connected_to_marked));
+                RingerManager.disableRinger(context);
+            } else {
+                Log.d(TAG, context.getString(R.string.msg_wifi_connected_to_non_marked));
+                RingerManager.enableRinger(context);
+            }
+        }
+
     }
 }

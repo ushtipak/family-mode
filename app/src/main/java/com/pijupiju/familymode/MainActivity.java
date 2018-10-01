@@ -7,10 +7,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CompoundButton;
+import android.widget.Switch;
 
 public class MainActivity extends AppCompatActivity {
     private final static String TAG = MainActivity.class.getSimpleName();
-    Button btnManageService;
+    Switch swManageService;
     Button btnMarkSSID;
     Button btnManageMarkedSSIDs;
     Boolean serviceEnabled = false;
@@ -41,10 +43,10 @@ public class MainActivity extends AppCompatActivity {
         }.getClass().getEnclosingMethod().getName();
         Log.d(TAG, "-> " + methodName);
 
-        btnManageService = (Button) findViewById(R.id.btnManageService);
-        btnManageService.setOnClickListener(new View.OnClickListener() {
+        swManageService = (Switch) findViewById(R.id.swManageService);
+        swManageService.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
-            public void onClick(View view) {
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 manageService();
             }
         });
@@ -87,7 +89,7 @@ public class MainActivity extends AppCompatActivity {
         Log.d(TAG, "-> " + methodName);
 
         getSharedPreferences(getString(R.string.shared_prefs_file), MODE_PRIVATE).edit().putBoolean(getString(R.string.shared_prefs_service_enabled), true).apply();
-        btnManageService.setText(R.string.btn_manage_service_disable);
+        WifiReceiver.manageRingerBasedOnSSID(getApplicationContext());
     }
 
     private void stopService() {
@@ -97,7 +99,6 @@ public class MainActivity extends AppCompatActivity {
 
         RingerManager.enableRinger(this);
         getSharedPreferences(getString(R.string.shared_prefs_file), MODE_PRIVATE).edit().putBoolean(getString(R.string.shared_prefs_service_enabled), false).apply();
-        btnManageService.setText(R.string.btn_manage_service_enable);
     }
 
     private void markSSID() {
