@@ -82,8 +82,12 @@ public class MainActivity extends AppCompatActivity {
 
         if (serviceEnabled) {
             DisableFamilyMode();
+            swManageService.setChecked(false);
+            getSharedPreferences(getString(R.string.shared_prefs_file), MODE_PRIVATE).edit().putBoolean(getString(R.string.shared_prefs_service_enabled), false).apply();
         } else {
             EnableFamilyMode();
+            getSharedPreferences(getString(R.string.shared_prefs_file), MODE_PRIVATE).edit().putBoolean(getString(R.string.shared_prefs_service_enabled), true).apply();
+            swManageService.setChecked(true);
         }
     }
 
@@ -92,8 +96,6 @@ public class MainActivity extends AppCompatActivity {
         }.getClass().getEnclosingMethod().getName();
         Log.d(TAG, "-> " + methodName);
 
-        swManageService.setChecked(true);
-        getSharedPreferences(getString(R.string.shared_prefs_file), MODE_PRIVATE).edit().putBoolean(getString(R.string.shared_prefs_service_enabled), true).apply();
         WifiReceiver.manageRingerBasedOnSSID(getApplicationContext(), false);
     }
 
@@ -103,8 +105,6 @@ public class MainActivity extends AppCompatActivity {
         Log.d(TAG, "-> " + methodName);
 
         RingerManager.enableRinger(this);
-        getSharedPreferences(getString(R.string.shared_prefs_file), MODE_PRIVATE).edit().putBoolean(getString(R.string.shared_prefs_service_enabled), false).apply();
-        swManageService.setChecked(false);
     }
 
     private void markSSID() {

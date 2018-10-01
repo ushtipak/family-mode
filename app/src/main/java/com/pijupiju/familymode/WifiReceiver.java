@@ -13,13 +13,15 @@ public class WifiReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
+        String methodName = new Object() {
+        }.getClass().getEnclosingMethod().getName();
+        Log.d(TAG, "-> " + methodName);
+
         String action = intent.getAction();
         assert action != null;
         if (action.equals("android.net.wifi.STATE_CHANGE")) {
-
             SharedPreferences preferences = context.getApplicationContext().getSharedPreferences(context.getString(R.string.shared_prefs_file), 0);
             Boolean serviceEnabled = preferences.getBoolean(context.getString(R.string.shared_prefs_service_enabled), false);
-
             if (serviceEnabled) {
                 manageRingerBasedOnSSID(context, true);
             }
@@ -27,6 +29,10 @@ public class WifiReceiver extends BroadcastReceiver {
     }
 
     static void manageRingerBasedOnSSID(Context context, Boolean automatic) {
+        String methodName = new Object() {
+        }.getClass().getEnclosingMethod().getName();
+        Log.d(TAG, "-> " + methodName);
+
         if (automatic) {
             Intent intent = new Intent(context, MainActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
