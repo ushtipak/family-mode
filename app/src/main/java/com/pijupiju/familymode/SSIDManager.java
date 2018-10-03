@@ -24,7 +24,7 @@ class SSIDManager {
             currentSSID = currentSSID.substring(1, currentSSID.length() - 1);
             Log.d(TAG, "-> currentSSID: " + currentSSID);
 
-            if (!currentSSID.equals("<unknown ssid>")) {
+            if (!currentSSID.equals("unknown ssid")) {
                 return currentSSID;
             }
         }
@@ -40,18 +40,22 @@ class SSIDManager {
         String markedSSIDBundle = preferences.getString(context.getString(R.string.shared_prefs_key_ssid), "");
         Log.d(TAG, "-> markedSSIDBundle: " + markedSSIDBundle);
 
-        if (markedSSIDBundle.contains(currentSSID)) {
-            Log.d(TAG, context.getString(R.string.msg_ssid_already_registered));
-            Toast.makeText(context.getApplicationContext(), context.getString(R.string.msg_ssid_already_registered), Toast.LENGTH_SHORT).show();
-        } else {
-            if (!markedSSIDBundle.equals("")) {
-                markedSSIDBundle += context.getString(R.string.shared_prefs_key_ssid_separator);
+        if (!currentSSID.equals("")) {
+            if (markedSSIDBundle.contains(currentSSID)) {
+                Log.d(TAG, context.getString(R.string.msg_ssid_already_registered));
+                Toast.makeText(context.getApplicationContext(), context.getString(R.string.msg_ssid_already_registered), Toast.LENGTH_SHORT).show();
+            } else {
+                if (!markedSSIDBundle.equals("")) {
+                    markedSSIDBundle += context.getString(R.string.shared_prefs_key_ssid_separator);
+                    Log.d(TAG, "-> markedSSIDBundle: " + markedSSIDBundle);
+                }
+                markedSSIDBundle += currentSSID;
                 Log.d(TAG, "-> markedSSIDBundle: " + markedSSIDBundle);
+                context.getSharedPreferences(context.getString(R.string.shared_prefs_file), MODE_PRIVATE).edit().putString(context.getString(R.string.shared_prefs_key_ssid), markedSSIDBundle).apply();
+                Toast.makeText(context.getApplicationContext(), context.getString(R.string.msg_ssid_marked), Toast.LENGTH_SHORT).show();
             }
-            markedSSIDBundle += currentSSID;
-            Log.d(TAG, "-> markedSSIDBundle: " + markedSSIDBundle);
-            context.getSharedPreferences(context.getString(R.string.shared_prefs_file), MODE_PRIVATE).edit().putString(context.getString(R.string.shared_prefs_key_ssid), markedSSIDBundle).apply();
-            Toast.makeText(context.getApplicationContext(), context.getString(R.string.msg_ssid_marked), Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(context.getApplicationContext(), context.getString(R.string.msg_wifi_not_connected), Toast.LENGTH_SHORT).show();
         }
     }
 

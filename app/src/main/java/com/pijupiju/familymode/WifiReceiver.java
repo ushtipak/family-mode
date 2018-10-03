@@ -47,10 +47,10 @@ public class WifiReceiver extends BroadcastReceiver {
 
         if (markedSSIDs != null) {
             if (markedSSIDs.contains(currentSSID)) {
-                Log.d(TAG, context.getString(R.string.msg_wifi_connected_to_marked));
+                Log.d(TAG, context.getString(R.string.log_wifi_connected_to_marked));
                 RingerManager.disableRinger(context);
             } else {
-                Log.d(TAG, context.getString(R.string.msg_wifi_connected_to_non_marked));
+                Log.d(TAG, context.getString(R.string.log_wifi_connected_to_non_marked));
                 RingerManager.enableRinger(context);
             }
         }

@@ -16,7 +16,8 @@
     <string name="msg_ssid_already_registered">SSID already marked</string>
     <string name="msg_ssid_marked">Marked current SSID</string>
     <string name="msg_ssid_removed">SSID removed</string>
-    <string name="msg_wifi_connected_to_marked">Connected to marked SSID, disable ringer</string>
-    <string name="msg_wifi_connected_to_non_marked">Connected to other SSID, don\'t care, enable ringer</string>
-    <string name="msg_wifi_not_connected">Not connected to WiFi, enable ringer</string>
+    <string name="msg_wifi_not_connected">Not connected to WiFi</string>
+
+    <string name="log_wifi_connected_to_marked">Connected to marked SSID, disable ringer</string>
+    <string name="log_wifi_connected_to_non_marked">Connected to other SSID, don\'t care, enable ringer</string>
 </resources>
