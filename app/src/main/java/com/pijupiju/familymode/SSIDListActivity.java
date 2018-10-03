@@ -88,6 +88,7 @@ public class SSIDListActivity extends AppCompatActivity {
                     myArrayAdapter.notifyDataSetChanged();
                     Toast.makeText(getApplicationContext(), getString(R.string.msg_ssid_removed), Toast.LENGTH_SHORT).show();
                     SSIDManager.removeMarkedSSID(getApplicationContext(), selectedSSID);
+                    WifiReceiver.manageRingerBasedOnSSID(getApplicationContext(), false);
                 }
             });
 

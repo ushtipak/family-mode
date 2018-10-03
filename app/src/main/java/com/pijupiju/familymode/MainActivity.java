@@ -115,6 +115,7 @@ public class MainActivity extends AppCompatActivity {
         Log.d(TAG, "-> currentSSID: " + currentSSID);
 
         SSIDManager.markSSID(this, currentSSID);
+        WifiReceiver.manageRingerBasedOnSSID(getApplicationContext(), false);
     }
 
     private void manageMarkedSSIDs() {
