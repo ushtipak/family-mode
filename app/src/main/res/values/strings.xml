@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">Family Mode</string>
-    <string name="iv_baby">Baby is feeling super safe :)</string>
+    <string name="iv_baby">Baby feels safe</string>
 
     <string name="btn_manage_service_enable">enable</string>
     <string name="btn_manage_service_disable">disable</string>
@@ -13,11 +13,10 @@
     <string name="shared_prefs_key_ssid">SSIDs</string>
     <string name="shared_prefs_key_ssid_separator">\u2026</string>
 
-    <string name="msg_ssid_already_registered">current wifi already marked</string>
-    <string name="msg_ssid_marked">marked current wifi as home</string>
-    <string name="msg_ssid_removed">marked wifi removed</string>
-    <string name="msg_ssid_empty_list">there are no saved wifi</string>
-    <string name="msg_wifi_connected_to_marked">connected to home wifi, disabling ringer :)</string>
-    <string name="msg_wifi_connected_to_non_marked">connected to other wifi, don\'t care, enable ringer :)</string>
-    <string name="msg_wifi_not_connected">not connected to any wifi, enable ringer :))</string>
+    <string name="msg_ssid_already_registered">SSID already marked</string>
+    <string name="msg_ssid_marked">Marked current SSID</string>
+    <string name="msg_ssid_removed">SSID removed</string>
+    <string name="msg_wifi_connected_to_marked">Connected to marked SSID, disable ringer</string>
+    <string name="msg_wifi_connected_to_non_marked">Connected to other SSID, don\'t care, enable ringer</string>
+    <string name="msg_wifi_not_connected">Not connected to WiFi, enable ringer</string>
 </resources>
