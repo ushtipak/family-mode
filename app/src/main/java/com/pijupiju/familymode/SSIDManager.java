@@ -55,7 +55,7 @@ class SSIDManager {
         }
     }
 
-    static String[] getMarkedSSIDs(Context context) {
+    static ArrayList<String> getMarkedSSIDs(Context context) {
         String methodName = new Object() {
         }.getClass().getEnclosingMethod().getName();
         Log.d(TAG, "-> " + methodName);
@@ -65,11 +65,11 @@ class SSIDManager {
         Log.d(TAG, "-> markedSSIDBundle: " + markedSSIDBundle);
 
         if (!markedSSIDBundle.equals("")) {
-            String[] markedSSIDs = markedSSIDBundle.split(context.getString(R.string.shared_prefs_key_ssid_separator));
-            Log.d(TAG, "-> markedSSIDs: " + Arrays.toString(markedSSIDs));
+            ArrayList<String> markedSSIDs = new ArrayList<>(Arrays.asList(markedSSIDBundle.split(context.getString(R.string.shared_prefs_key_ssid_separator))));
+            Log.d(TAG, "-> markedSSIDs: " + markedSSIDs);
             return markedSSIDs;
         } else {
-            return null;
+            return new ArrayList<>();
         }
     }
 
@@ -78,11 +78,11 @@ class SSIDManager {
         }.getClass().getEnclosingMethod().getName();
         Log.d(TAG, "-> " + methodName);
 
-        String[] markedSSIDs = SSIDManager.getMarkedSSIDs(context);
-        Log.d(TAG, "-> markedSSIDs: " + Arrays.toString(markedSSIDs));
+        ArrayList<String> markedSSIDs = SSIDManager.getMarkedSSIDs(context);
+        Log.d(TAG, "-> markedSSIDs: " + markedSSIDs);
 
         if (markedSSIDs != null) {
-            if (Arrays.asList(markedSSIDs).contains(targetSSID)) {
+            if (markedSSIDs.contains(targetSSID)) {
                 ArrayList<String> preservedSSIDs = new ArrayList<>();
                 for (String markedSSID : markedSSIDs) {
                     if (!markedSSID.equals(targetSSID)) {

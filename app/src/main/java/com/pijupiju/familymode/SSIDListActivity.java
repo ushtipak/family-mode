@@ -1,20 +1,25 @@
 package com.pijupiju.familymode;
 
+import android.content.Context;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ListAdapter;
+import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
-import java.util.Arrays;
+import java.util.ArrayList;
 
 public class SSIDListActivity extends AppCompatActivity {
     private final static String TAG = SSIDListActivity.class.getSimpleName();
-
-    ListView lvSSIDs;
+    MyArrayAdapter myArrayAdapter = null;
+    ArrayList<String> allMarkedSSIDs = new ArrayList<String>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,7 +30,6 @@ public class SSIDListActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_ssidlist);
         initViews();
-        displayMarkedSSIDs();
     }
 
     private void initViews() {
@@ -33,33 +37,61 @@ public class SSIDListActivity extends AppCompatActivity {
         }.getClass().getEnclosingMethod().getName();
         Log.d(TAG, "-> " + methodName);
 
-        lvSSIDs = (ListView) findViewById(R.id.lvSSIDs);
+        ListView lvSSIDs = (ListView) findViewById(R.id.lvSSIDs);
+        allMarkedSSIDs = SSIDManager.getMarkedSSIDs(this);
+        myArrayAdapter = new MyArrayAdapter(SSIDListActivity.this, R.layout.list_row, allMarkedSSIDs);
+        lvSSIDs.setAdapter(myArrayAdapter);
     }
 
-    private void displayMarkedSSIDs() {
-        String methodName = new Object() {
-        }.getClass().getEnclosingMethod().getName();
-        Log.d(TAG, "-> " + methodName);
+    public class MyArrayAdapter extends ArrayAdapter<String> {
+        ArrayList<String> arrayList;
 
-        String[] allMarkedSSIDs = SSIDManager.getMarkedSSIDs(this);
-        if (allMarkedSSIDs != null) {
-            Log.d(TAG, "-> allMarkedSSIDs: " + Arrays.toString(allMarkedSSIDs));
+        MyArrayAdapter(Context context, int textViewResourceId, ArrayList<String> objects) {
+            super(context, textViewResourceId, objects);
+            this.arrayList = objects;
+        }
 
+        class ViewHolder {
+            TextView tvSSID;
+            Button btnRemove;
 
-            ListAdapter listAdapter = new MyArrayAdapter(this, allMarkedSSIDs);
-            ListView listView = (ListView) findViewById(R.id.lvSSIDs);
-            listView.setAdapter(listAdapter);
-            listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            ViewHolder(View v) {
+                tvSSID = (TextView) v.findViewById(R.id.tvSSID);
+                btnRemove = (Button) v.findViewById(R.id.btnRemove);
+            }
+        }
+
+        @NonNull
+        @Override
+        public View getView(final int position, View convertView, @NonNull final ViewGroup parent) {
+            String methodName = new Object() {
+            }.getClass().getEnclosingMethod().getName();
+            Log.d(TAG, "-> " + methodName);
+
+            ViewHolder viewHolder;
+            if (convertView == null) {
+                convertView = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_row, parent, false);
+                viewHolder = new ViewHolder(convertView);
+                convertView.setTag(viewHolder);
+            } else {
+                viewHolder = (ViewHolder) convertView.getTag();
+            }
+
+            String targetSSID = getItem(position);
+            viewHolder.tvSSID.setText(targetSSID);
+            viewHolder.btnRemove.setOnClickListener(new View.OnClickListener() {
+
                 @Override
-                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    String selectedSSID = String.valueOf(parent.getItemAtPosition(position));
+                public void onClick(View v) {
+                    String selectedSSID = arrayList.get(position);
+                    arrayList.remove(position);
+                    myArrayAdapter.notifyDataSetChanged();
                     Toast.makeText(getApplicationContext(), getString(R.string.msg_ssid_removed), Toast.LENGTH_SHORT).show();
                     SSIDManager.removeMarkedSSID(getApplicationContext(), selectedSSID);
-                    displayMarkedSSIDs();
                 }
             });
-        } else {
-            Toast.makeText(getApplicationContext(), getString(R.string.msg_ssid_empty_list), Toast.LENGTH_SHORT).show();
+
+            return convertView;
         }
     }
 }

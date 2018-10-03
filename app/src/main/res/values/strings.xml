@@ -1,10 +1,12 @@
 <resources>
     <string name="app_name">Family Mode</string>
+    <string name="iv_baby">Baby is feeling super safe :)</string>
 
     <string name="btn_manage_service_enable">enable</string>
     <string name="btn_manage_service_disable">disable</string>
-    <string name="btn_mark_ssid">mark home ssid</string>
-    <string name="btn_manage_marked_ssids">manage marked ssids</string>
+    <string name="btn_mark_ssid">mark ssid</string>
+    <string name="btn_manage_saved">manage saved</string>
+    <string name="btn_remove">remove</string>
 
     <string name="shared_prefs_file">PREFERENCES</string>
     <string name="shared_prefs_service_enabled">Service Enabled</string>
@@ -18,6 +20,4 @@
     <string name="msg_wifi_connected_to_marked">connected to home wifi, disabling ringer :)</string>
     <string name="msg_wifi_connected_to_non_marked">connected to other wifi, don\'t care, enable ringer :)</string>
     <string name="msg_wifi_not_connected">not connected to any wifi, enable ringer :))</string>
-    <string name="iv_baby">Baby is feeling super safe :)</string>
-
 </resources>

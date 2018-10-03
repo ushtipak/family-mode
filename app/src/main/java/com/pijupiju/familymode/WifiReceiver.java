@@ -6,7 +6,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.util.Log;
 
-import java.util.Arrays;
+import java.util.ArrayList;
 
 public class WifiReceiver extends BroadcastReceiver {
     private final static String TAG = WifiReceiver.class.getSimpleName();
@@ -42,11 +42,11 @@ public class WifiReceiver extends BroadcastReceiver {
         String currentSSID = SSIDManager.getCurrentSSID(context);
         Log.d(TAG, "-> currentSSID: " + currentSSID);
 
-        String[] markedSSIDs = SSIDManager.getMarkedSSIDs(context.getApplicationContext());
-        Log.d(TAG, "-> markedSSIDs: " + Arrays.toString(markedSSIDs));
+        ArrayList<String> markedSSIDs = SSIDManager.getMarkedSSIDs(context.getApplicationContext());
+        Log.d(TAG, "-> markedSSIDs: " + markedSSIDs);
 
         if (markedSSIDs != null) {
-            if (Arrays.asList(markedSSIDs).contains(currentSSID)) {
+            if (markedSSIDs.contains(currentSSID)) {
                 Log.d(TAG, context.getString(R.string.msg_wifi_connected_to_marked));
                 RingerManager.disableRinger(context);
             } else {
