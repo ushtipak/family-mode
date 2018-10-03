@@ -39,19 +39,24 @@ public class WifiReceiver extends BroadcastReceiver {
             context.startActivity(intent);
         }
 
-        String currentSSID = SSIDManager.getCurrentSSID(context);
-        Log.d(TAG, "-> currentSSID: " + currentSSID);
+        SharedPreferences preferences = context.getApplicationContext().getSharedPreferences(context.getString(R.string.shared_prefs_file), 0);
+        Boolean serviceEnabled = preferences.getBoolean(context.getString(R.string.shared_prefs_service_enabled), false);
 
-        ArrayList<String> markedSSIDs = SSIDManager.getMarkedSSIDs(context.getApplicationContext());
-        Log.d(TAG, "-> markedSSIDs: " + markedSSIDs);
+        if (serviceEnabled) {
+            String currentSSID = SSIDManager.getCurrentSSID(context);
+            Log.d(TAG, "-> currentSSID: " + currentSSID);
 
-        if (markedSSIDs != null) {
-            if (markedSSIDs.contains(currentSSID)) {
-                Log.d(TAG, context.getString(R.string.log_wifi_connected_to_marked));
-                RingerManager.disableRinger(context);
-            } else {
-                Log.d(TAG, context.getString(R.string.log_wifi_connected_to_non_marked));
-                RingerManager.enableRinger(context);
+            ArrayList<String> markedSSIDs = SSIDManager.getMarkedSSIDs(context.getApplicationContext());
+            Log.d(TAG, "-> markedSSIDs: " + markedSSIDs);
+
+            if (markedSSIDs != null) {
+                if (markedSSIDs.contains(currentSSID)) {
+                    Log.d(TAG, context.getString(R.string.log_wifi_connected_to_marked));
+                    RingerManager.disableRinger(context);
+                } else {
+                    Log.d(TAG, context.getString(R.string.log_wifi_connected_to_non_marked));
+                    RingerManager.enableRinger(context);
+                }
             }
         }
 

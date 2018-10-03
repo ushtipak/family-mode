@@ -35,7 +35,7 @@ public class MainActivity extends AppCompatActivity {
         }.getClass().getEnclosingMethod().getName();
         Log.d(TAG, "-> " + methodName);
 
-        DisableFamilyMode();
+        RingerManager.enableRinger(this);
     }
 
     private void initViews() {
@@ -80,30 +80,14 @@ public class MainActivity extends AppCompatActivity {
         serviceEnabled = preferences.getBoolean(getString(R.string.shared_prefs_service_enabled), false);
 
         if (serviceEnabled) {
-            DisableFamilyMode();
+            RingerManager.enableRinger(this);
             swManageService.setChecked(false);
             getSharedPreferences(getString(R.string.shared_prefs_file), MODE_PRIVATE).edit().putBoolean(getString(R.string.shared_prefs_service_enabled), false).apply();
         } else {
-            EnableFamilyMode();
             getSharedPreferences(getString(R.string.shared_prefs_file), MODE_PRIVATE).edit().putBoolean(getString(R.string.shared_prefs_service_enabled), true).apply();
             swManageService.setChecked(true);
         }
-    }
-
-    private void EnableFamilyMode() {
-        String methodName = new Object() {
-        }.getClass().getEnclosingMethod().getName();
-        Log.d(TAG, "-> " + methodName);
-
         WifiReceiver.manageRingerBasedOnSSID(getApplicationContext(), false);
-    }
-
-    private void DisableFamilyMode() {
-        String methodName = new Object() {
-        }.getClass().getEnclosingMethod().getName();
-        Log.d(TAG, "-> " + methodName);
-
-        RingerManager.enableRinger(this);
     }
 
     private void markSSID() {
