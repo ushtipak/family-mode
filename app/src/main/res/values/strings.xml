@@ -6,7 +6,7 @@
     <string name="btn_manage_service_disable">disable</string>
     <string name="btn_mark_ssid">mark ssid</string>
     <string name="btn_manage_saved">manage saved</string>
-    <string name="btn_remove">remove</string>
+    <string name="btn_remove">✗</string>
 
     <string name="shared_prefs_file">PREFERENCES</string>
     <string name="shared_prefs_service_enabled">Service Enabled</string>
