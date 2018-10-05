@@ -1,8 +1,10 @@
 package com.pijupiju.familymode;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -83,12 +85,23 @@ public class SSIDListActivity extends AppCompatActivity {
 
                 @Override
                 public void onClick(View v) {
-                    String selectedSSID = arrayList.get(position);
-                    arrayList.remove(position);
-                    myArrayAdapter.notifyDataSetChanged();
-                    Toast.makeText(getApplicationContext(), getString(R.string.msg_ssid_removed), Toast.LENGTH_SHORT).show();
-                    SSIDManager.removeMarkedSSID(getApplicationContext(), selectedSSID);
-                    WifiReceiver.manageRingerBasedOnSSID(getApplicationContext(), false);
+                    final String selectedSSID = arrayList.get(position);
+
+                    AlertDialog.Builder builder = new AlertDialog.Builder(SSIDListActivity.this);
+                    builder.setMessage(String.format(getString(R.string.dialog_remove_ssid_inquiry), selectedSSID))
+                            .setPositiveButton(R.string.dialog_remove_ssid_yes, new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    arrayList.remove(position);
+                                    myArrayAdapter.notifyDataSetChanged();
+                                    Toast.makeText(getApplicationContext(), getString(R.string.msg_ssid_removed), Toast.LENGTH_SHORT).show();
+                                    SSIDManager.removeMarkedSSID(getApplicationContext(), selectedSSID);
+                                    WifiReceiver.manageRingerBasedOnSSID(getApplicationContext(), false);
+                                }
+                            })
+                            .setNegativeButton(R.string.dialog_remove_ssid_no, null);
+                    AlertDialog alertDialog = builder.create();
+                    alertDialog.show();
                 }
             });
 
