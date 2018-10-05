@@ -4,13 +4,10 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
+import android.net.wifi.WifiManager;
 import android.util.Log;
 
 import java.util.ArrayList;
-
-import static android.content.Context.CONNECTIVITY_SERVICE;
 
 public class WifiReceiver extends BroadcastReceiver {
     private final static String TAG = WifiReceiver.class.getSimpleName();
@@ -42,11 +39,9 @@ public class WifiReceiver extends BroadcastReceiver {
 
         if (serviceEnabled) {
 
-            ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(CONNECTIVITY_SERVICE);
-            assert connectivityManager != null;
-            NetworkInfo networkInfo = connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
-            Log.d("CAN WE GET THIS:", networkInfo.toString());
-            if (networkInfo.isConnected()) {
+            WifiManager wifiManager = (WifiManager) context.getApplicationContext().getSystemService(Context.WIFI_SERVICE);
+            assert wifiManager != null;
+            if (wifiManager.isWifiEnabled()) {
 
                 if (automatic) {
                     Intent intent = new Intent(context, MainActivity.class);
@@ -64,10 +59,10 @@ public class WifiReceiver extends BroadcastReceiver {
                     if (markedSSIDs.contains(currentSSID)) {
                         Log.d(TAG, context.getString(R.string.log_wifi_connected_to_marked));
                         RingerManager.disableRinger(context);
-                    } else {
-                        Log.d(TAG, context.getString(R.string.log_wifi_connected_to_non_marked));
-                        RingerManager.enableRinger(context);
                     }
+                } else {
+                    Log.d(TAG, context.getString(R.string.log_wifi_connected_to_non_marked));
+                    RingerManager.enableRinger(context);
                 }
             } else {
                 Log.d(TAG, context.getString(R.string.log_wifi_not_connected));
