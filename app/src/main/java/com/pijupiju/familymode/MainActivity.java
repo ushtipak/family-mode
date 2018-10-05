@@ -35,7 +35,7 @@ public class MainActivity extends AppCompatActivity {
         }.getClass().getEnclosingMethod().getName();
         Log.d(TAG, "-> " + methodName);
 
-        RingerManager.enableRinger(this);
+        WifiReceiver.manageRingerBasedOnSSID(getApplicationContext(), false);
     }
 
     private void initViews() {
@@ -81,11 +81,9 @@ public class MainActivity extends AppCompatActivity {
 
         if (serviceEnabled) {
             RingerManager.enableRinger(this);
-            swManageService.setChecked(false);
             getSharedPreferences(getString(R.string.shared_prefs_file), MODE_PRIVATE).edit().putBoolean(getString(R.string.shared_prefs_service_enabled), false).apply();
         } else {
             getSharedPreferences(getString(R.string.shared_prefs_file), MODE_PRIVATE).edit().putBoolean(getString(R.string.shared_prefs_service_enabled), true).apply();
-            swManageService.setChecked(true);
         }
         WifiReceiver.manageRingerBasedOnSSID(getApplicationContext(), false);
     }
