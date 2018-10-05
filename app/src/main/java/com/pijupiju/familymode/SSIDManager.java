@@ -18,9 +18,9 @@ class SSIDManager {
     static String getCurrentSSID(Context context) {
         WifiManager wifiManager = (WifiManager) context.getApplicationContext().getSystemService(Context.WIFI_SERVICE);
         assert wifiManager != null;
-        WifiInfo info = wifiManager.getConnectionInfo();
-        if (info != null) {
-            String currentSSID = info.getSSID();
+        WifiInfo wifiInfo = wifiManager.getConnectionInfo();
+        if (wifiInfo != null) {
+            String currentSSID = wifiInfo.getSSID();
             currentSSID = currentSSID.substring(1, currentSSID.length() - 1);
             Log.d(TAG, "-> currentSSID: " + currentSSID);
 
