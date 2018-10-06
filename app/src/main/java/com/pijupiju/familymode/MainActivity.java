@@ -1,13 +1,16 @@
 package com.pijupiju.familymode;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.wifi.WifiManager;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.Switch;
 import android.widget.TextView;
@@ -94,6 +97,33 @@ public class MainActivity extends AppCompatActivity {
         tvWiFiMarked = (TextView) findViewById(R.id.tvWiFiMarked);
         tvRingerState = (TextView) findViewById(R.id.tvRingerState);
         tvRingerMarked = (TextView) findViewById(R.id.tvRingerMarked);
+        updateStats();
+    }
+
+    private void updateStats() {
+        String methodName = new Object() {
+        }.getClass().getEnclosingMethod().getName();
+        Log.d(TAG, "-> " + methodName);
+
+        WifiManager wifiManager = (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
+        assert wifiManager != null;
+
+        Integer wifiState = wifiManager.getWifiState();
+        //        int WIFI_STATE_DISABLED = 1;
+        //        int WIFI_STATE_DISABLING = 0;
+        //        int WIFI_STATE_ENABLED = 3;
+        //        int WIFI_STATE_ENABLING = 2;
+        //        int WIFI_STATE_UNKNOWN = 4;
+
+        if (wifiState.equals(1) || wifiState.equals(0)) {
+            tvWiFiState.setText(R.string.tv_wifi_state_disabled);
+            tvWiFiSSID.setVisibility(View.INVISIBLE);
+        } else {
+            String currentSSID = SSIDManager.getCurrentSSID(this);
+            tvWiFiState.setText(R.string.tv_wifi_state_enabled);
+            tvWiFiSSID.setText(String.format(getString(R.string.tv_wifi_ssid_placeholder), currentSSID));
+            tvWiFiSSID.setVisibility(View.VISIBLE);
+        }
     }
 
     private void manageService() {
