@@ -10,11 +10,17 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.CompoundButton;
 import android.widget.Switch;
+import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
     private final static String TAG = MainActivity.class.getSimpleName();
     Switch swManageService;
     Boolean serviceEnabled = false;
+    TextView tvWiFiState;
+    TextView tvWiFiSSID;
+    TextView tvWiFiMarked;
+    TextView tvRingerState;
+    TextView tvRingerMarked;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,6 +88,12 @@ public class MainActivity extends AppCompatActivity {
                 manageService();
             }
         });
+
+        tvWiFiState = (TextView) findViewById(R.id.tvWiFiState);
+        tvWiFiSSID = (TextView) findViewById(R.id.tvWiFiSSID);
+        tvWiFiMarked = (TextView) findViewById(R.id.tvWiFiMarked);
+        tvRingerState = (TextView) findViewById(R.id.tvRingerState);
+        tvRingerMarked = (TextView) findViewById(R.id.tvRingerMarked);
     }
 
     private void manageService() {
