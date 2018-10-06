@@ -57,7 +57,12 @@ public class MainActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             case R.id.actionMarkSSID:
                 markSSID();
-                updateStats();
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        updateStats();
+                    }
+                });
                 return true;
             case R.id.actionManageMarkedSSIDs:
                 manageMarkedSSIDs();
@@ -84,7 +89,12 @@ public class MainActivity extends AppCompatActivity {
         }.getClass().getEnclosingMethod().getName();
         Log.d(TAG, "-> " + methodName);
 
-        updateStats();
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                updateStats();
+            }
+        });
     }
 
     private void initViews() {
@@ -100,6 +110,12 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 manageService();
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        updateStats();
+                    }
+                });
             }
         });
 
