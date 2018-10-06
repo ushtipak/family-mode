@@ -99,7 +99,7 @@ public class SSIDListActivity extends AppCompatActivity {
                                     WifiReceiver.manageRingerBasedOnSSID(getApplicationContext(), false);
                                 }
                             })
-                            .setNegativeButton(R.string.dialog_remove_ssid_no, null);
+                            .setNegativeButton(R.string.dialog_negative, null);
                     AlertDialog alertDialog = builder.create();
                     alertDialog.show();
                 }

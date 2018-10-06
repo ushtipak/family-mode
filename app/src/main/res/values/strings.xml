@@ -21,9 +21,11 @@
     <string name="log_wifi_connected_to_marked">Connected to marked SSID, disable ringer</string>
     <string name="log_wifi_connected_to_non_marked">Connected to other SSID, don\'t care, enable ringer</string>
 
-    <string name="dialog_remove_ssid_no">Nope</string>
-    <string name="dialog_remove_ssid_yes">Sure, remove it!</string>
     <string name="dialog_remove_ssid_inquiry">Remove %s from marked SSIDs?</string>
+    <string name="dialog_remove_ssid_yes">Sure, remove it!</string>
+    <string name="dialog_add_ssid_inquiry">Add %s to marked SSIDs?</string>
+    <string name="dialog_add_ssid_yes">Sure, add it!</string>
+    <string name="dialog_negative">Nope</string>
 
     <string name="tv_wifi_label">WiFi:</string>
     <string name="tv_ringer_label">Ringer:</string>

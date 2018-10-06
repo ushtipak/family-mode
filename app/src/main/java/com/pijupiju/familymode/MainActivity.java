@@ -1,10 +1,12 @@
 package com.pijupiju.familymode;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.wifi.WifiManager;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
@@ -124,6 +126,32 @@ public class MainActivity extends AppCompatActivity {
 
         tvWiFiState = (TextView) findViewById(R.id.tvWiFiState);
         tvWiFiSSID = (TextView) findViewById(R.id.tvWiFiSSID);
+        tvWiFiSSID.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String currentSSID = SSIDManager.getCurrentSSID(getApplicationContext());
+                if (! SSIDManager.isSSIDMarked(getApplicationContext(), currentSSID)) {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+                    builder.setMessage(String.format(getString(R.string.dialog_add_ssid_inquiry), currentSSID))
+                            .setPositiveButton(R.string.dialog_add_ssid_yes, new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    markSSID();
+                                    runOnUiThread(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            updateStats();
+                                        }
+                                    });
+                                }
+                            })
+                            .setNegativeButton(R.string.dialog_negative, null);
+                    AlertDialog alertDialog = builder.create();
+                    alertDialog.show();
+                }
+            }
+        });
+
         tvWiFiMarked = (TextView) findViewById(R.id.tvWiFiMarked);
         tvRingerState = (TextView) findViewById(R.id.tvRingerState);
         tvRingerMarked = (TextView) findViewById(R.id.tvRingerMarked);
