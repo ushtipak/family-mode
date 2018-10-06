@@ -28,4 +28,15 @@ class RingerManager {
         audioManager.setRingerMode(AudioManager.RINGER_MODE_NORMAL);
         Log.d(TAG, "-> audioManager.getRingerMode: " + audioManager.getRingerMode());
     }
+
+    static Boolean isRingerEnabled(Context context) {
+        String methodName = new Object() {
+        }.getClass().getEnclosingMethod().getName();
+        Log.d(TAG, "-> " + methodName);
+
+        final AudioManager audioManager = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
+        assert audioManager != null;
+        Integer ringerMode = audioManager.getRingerMode();
+        return ringerMode.equals(2);
+    }
 }
