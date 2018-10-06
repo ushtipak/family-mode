@@ -28,7 +28,8 @@
     <string name="tv_ringer_label">Ringer:</string>
     <string name="tv_placeholder">…</string>
     <string name="tv_mark">✓</string>
-    <string name="tv_wifi_state_disabled">Disabled</string>
-    <string name="tv_wifi_state_enabled">Enabled</string>
     <string name="tv_wifi_ssid_placeholder">(%s)</string>
+
+    <string name="tv_state_disabled">Disabled</string>
+    <string name="tv_state_enabled">Enabled</string>
 </resources>

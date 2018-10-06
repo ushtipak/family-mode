@@ -108,7 +108,13 @@ public class MainActivity extends AppCompatActivity {
         tvWiFiMarked = (TextView) findViewById(R.id.tvWiFiMarked);
         tvRingerState = (TextView) findViewById(R.id.tvRingerState);
         tvRingerMarked = (TextView) findViewById(R.id.tvRingerMarked);
-        updateStats();
+
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                updateStats();
+            }
+        });
     }
 
     private void updateStats() {
@@ -127,22 +133,31 @@ public class MainActivity extends AppCompatActivity {
         //        int WIFI_STATE_UNKNOWN = 4;
 
         if (wifiState.equals(1) || wifiState.equals(0)) {
-            tvWiFiState.setText(R.string.tv_wifi_state_disabled);
+            tvWiFiState.setText(R.string.tv_state_disabled);
             tvWiFiSSID.setVisibility(View.INVISIBLE);
         } else {
             String currentSSID = SSIDManager.getCurrentSSID(this);
-            tvWiFiState.setText(R.string.tv_wifi_state_enabled);
+            tvWiFiState.setText(R.string.tv_state_enabled);
             tvWiFiSSID.setText(String.format(getString(R.string.tv_wifi_ssid_placeholder), currentSSID));
             tvWiFiSSID.setVisibility(View.VISIBLE);
 
-            Boolean isMarked = SSIDManager.isMarked(this, currentSSID);
-            if (isMarked) {
+            Boolean isSSIDMarked = SSIDManager.isSSIDMarked(this, currentSSID);
+            if (isSSIDMarked) {
                 tvWiFiMarked.setVisibility(View.VISIBLE);
             } else {
                 tvWiFiMarked.setVisibility(View.INVISIBLE);
             }
-
         }
+
+        Boolean isRingerEnabled = RingerManager.isRingerEnabled(this);
+        if (isRingerEnabled) {
+            tvRingerState.setText(getString(R.string.tv_state_enabled));
+            tvRingerMarked.setVisibility(View.INVISIBLE);
+        } else {
+            tvRingerState.setText(getString(R.string.tv_state_disabled));
+            tvRingerMarked.setVisibility(View.VISIBLE);
+        }
+
     }
 
     private void manageService() {

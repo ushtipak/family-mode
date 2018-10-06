@@ -109,7 +109,7 @@ class SSIDManager {
         }
     }
 
-    static Boolean isMarked(Context context, String currentSSID) {
+    static Boolean isSSIDMarked(Context context, String currentSSID) {
         String methodName = new Object() {
         }.getClass().getEnclosingMethod().getName();
         Log.d(TAG, "-> " + methodName);
