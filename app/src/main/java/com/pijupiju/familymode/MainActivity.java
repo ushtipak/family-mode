@@ -8,16 +8,12 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.Switch;
 
 public class MainActivity extends AppCompatActivity {
     private final static String TAG = MainActivity.class.getSimpleName();
     Switch swManageService;
-    Button btnMarkSSID;
-    Button btnManageMarkedSSIDs;
     Boolean serviceEnabled = false;
 
     @Override

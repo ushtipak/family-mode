@@ -3,8 +3,8 @@
     <string name="iv_baby">Baby feels safe</string>
     <string name="btn_remove">✗</string>
 
-    <string name="action_mark_ssid">mark ssid</string>
-    <string name="action_manage_saved">manage saved</string>
+    <string name="action_mark_ssid">Mark SSID</string>
+    <string name="action_manage_saved">Manage Saved</string>
 
     <string name="shared_prefs_file">PREFERENCES</string>
     <string name="shared_prefs_service_enabled">Service Enabled</string>
