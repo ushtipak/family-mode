@@ -14,6 +14,9 @@ import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.Switch;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
     private final static String TAG = MainActivity.class.getSimpleName();
@@ -210,7 +213,12 @@ public class MainActivity extends AppCompatActivity {
         }.getClass().getEnclosingMethod().getName();
         Log.d(TAG, "-> " + methodName);
 
-        Intent intent = new Intent(getApplicationContext(), SSIDListActivity.class);
-        startActivity(intent);
+        ArrayList<String> allMarkedSSIDs = SSIDManager.getMarkedSSIDs(this);
+        if (allMarkedSSIDs.isEmpty()) {
+            Toast.makeText(getApplicationContext(), getString(R.string.msg_ssid_list_empty), Toast.LENGTH_SHORT).show();
+        } else {
+            Intent intent = new Intent(getApplicationContext(), SSIDListActivity.class);
+            startActivity(intent);
+        }
     }
 }
