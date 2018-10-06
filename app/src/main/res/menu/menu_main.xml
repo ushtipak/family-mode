@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/actionMarkSSID"
+        android:title="@string/action_mark_ssid" />
+
+    <item
+        android:id="@+id/actionManageMarkedSSIDs"
+        android:title="@string/action_manage_saved" />
+
+</menu>

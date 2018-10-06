@@ -1,12 +1,10 @@
 <resources>
     <string name="app_name">Family Mode</string>
     <string name="iv_baby">Baby feels safe</string>
-
-    <string name="btn_manage_service_enable">enable</string>
-    <string name="btn_manage_service_disable">disable</string>
-    <string name="btn_mark_ssid">mark ssid</string>
-    <string name="btn_manage_saved">manage saved</string>
     <string name="btn_remove">✗</string>
+
+    <string name="action_mark_ssid">mark ssid</string>
+    <string name="action_manage_saved">manage saved</string>
 
     <string name="shared_prefs_file">PREFERENCES</string>
     <string name="shared_prefs_service_enabled">Service Enabled</string>

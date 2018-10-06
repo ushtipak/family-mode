@@ -5,6 +5,9 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CompoundButton;
@@ -26,6 +29,36 @@ public class MainActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_main);
         initViews();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        String methodName = new Object() {
+        }.getClass().getEnclosingMethod().getName();
+        Log.d(TAG, "-> " + methodName);
+
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_main, menu);
+
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        String methodName = new Object() {
+        }.getClass().getEnclosingMethod().getName();
+        Log.d(TAG, "-> " + methodName);
+
+        switch (item.getItemId()) {
+            case R.id.actionMarkSSID:
+                markSSID();
+                return true;
+            case R.id.actionManageMarkedSSIDs:
+                manageMarkedSSIDs();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
     @Override
@@ -51,22 +84,6 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 manageService();
-            }
-        });
-
-        btnMarkSSID = (Button) findViewById(R.id.btnMarkSSID);
-        btnMarkSSID.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                markSSID();
-            }
-        });
-
-        btnManageMarkedSSIDs = (Button) findViewById(R.id.btnManageMarkedSSIDs);
-        btnManageMarkedSSIDs.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                manageMarkedSSIDs();
             }
         });
     }
