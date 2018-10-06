@@ -74,7 +74,7 @@
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
         android:layout_marginTop="64dp"
-        android:text="@string/tv_wifi_marked"
+        android:text="@string/tv_mark"
         android:textColor="@color/colorPrimary"
         android:textStyle="bold"
         app:layout_constraintStart_toEndOf="@+id/tvWiFiSSID"
@@ -101,5 +101,18 @@
         android:text="@string/tv_ringer_state"
         app:layout_constraintStart_toEndOf="@+id/tvRingerLabel"
         app:layout_constraintTop_toBottomOf="@+id/tvWiFiState" />
+
+    <TextView
+        android:id="@+id/tvRingerMarked"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="8dp"
+        android:text="@string/tv_mark"
+        android:textColor="@color/colorPrimary"
+        android:textStyle="bold"
+        app:layout_constraintStart_toEndOf="@+id/tvRingerState"
+        app:layout_constraintTop_toBottomOf="@+id/tvWiFiSSID" />
 
 </android.support.constraint.ConstraintLayout>

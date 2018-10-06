@@ -29,5 +29,5 @@
     <string name="tv_ringer_label">Ringer:</string>
     <string name="tv_ringer_state">Enabled</string>
     <string name="tv_wifi_ssid">(DialUp)</string>
-    <string name="tv_wifi_marked">✓</string>
+    <string name="tv_mark">✓</string>
 </resources>
