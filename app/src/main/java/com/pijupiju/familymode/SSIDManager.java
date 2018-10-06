@@ -108,4 +108,25 @@ class SSIDManager {
             }
         }
     }
+
+    static Boolean isMarked(Context context, String currentSSID) {
+        String methodName = new Object() {
+        }.getClass().getEnclosingMethod().getName();
+        Log.d(TAG, "-> " + methodName);
+
+        Boolean isMarked = false;
+
+        SharedPreferences preferences = context.getApplicationContext().getSharedPreferences(context.getString(R.string.shared_prefs_file), 0);
+        String markedSSIDBundle = preferences.getString(context.getString(R.string.shared_prefs_key_ssid), "");
+        Log.d(TAG, "-> markedSSIDBundle: " + markedSSIDBundle);
+
+        if (!currentSSID.equals("")) {
+            if (markedSSIDBundle.contains(currentSSID)) {
+                isMarked = true;
+            }
+        }
+
+        return isMarked;
+    }
+
 }

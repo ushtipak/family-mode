@@ -57,6 +57,7 @@ public class MainActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             case R.id.actionMarkSSID:
                 markSSID();
+                updateStats();
                 return true;
             case R.id.actionManageMarkedSSIDs:
                 manageMarkedSSIDs();
@@ -74,6 +75,16 @@ public class MainActivity extends AppCompatActivity {
         Log.d(TAG, "-> " + methodName);
 
         WifiReceiver.manageRingerBasedOnSSID(getApplicationContext(), false);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        String methodName = new Object() {
+        }.getClass().getEnclosingMethod().getName();
+        Log.d(TAG, "-> " + methodName);
+
+        updateStats();
     }
 
     private void initViews() {
@@ -123,6 +134,14 @@ public class MainActivity extends AppCompatActivity {
             tvWiFiState.setText(R.string.tv_wifi_state_enabled);
             tvWiFiSSID.setText(String.format(getString(R.string.tv_wifi_ssid_placeholder), currentSSID));
             tvWiFiSSID.setVisibility(View.VISIBLE);
+
+            Boolean isMarked = SSIDManager.isMarked(this, currentSSID);
+            if (isMarked) {
+                tvWiFiMarked.setVisibility(View.VISIBLE);
+            } else {
+                tvWiFiMarked.setVisibility(View.INVISIBLE);
+            }
+
         }
     }
 
