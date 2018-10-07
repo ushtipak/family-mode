@@ -186,7 +186,9 @@ public class MainActivity extends AppCompatActivity {
             String currentSSID = SSIDManager.getCurrentSSID(this);
             tvWiFiState.setText(R.string.tv_state_enabled);
             tvWiFiSSID.setText(String.format(getString(R.string.tv_wifi_ssid_placeholder), currentSSID));
-            tvWiFiSSID.setVisibility(View.VISIBLE);
+            if (! currentSSID.equals("")) {
+                tvWiFiSSID.setVisibility(View.VISIBLE);
+            }
 
             Boolean isSSIDMarked = SSIDManager.isSSIDMarked(this, currentSSID);
             if (isSSIDMarked) {

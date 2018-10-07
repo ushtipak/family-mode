@@ -16,15 +16,18 @@ class SSIDManager {
     private final static String TAG = SSIDManager.class.getSimpleName();
 
     static String getCurrentSSID(Context context) {
+        String methodName = new Object() {
+        }.getClass().getEnclosingMethod().getName();
+        Log.d(TAG, "-> " + methodName);
+
         WifiManager wifiManager = (WifiManager) context.getApplicationContext().getSystemService(Context.WIFI_SERVICE);
         assert wifiManager != null;
         WifiInfo wifiInfo = wifiManager.getConnectionInfo();
         if (wifiInfo != null) {
+            String supplicantState = wifiInfo.getSupplicantState().toString();
             String currentSSID = wifiInfo.getSSID();
             currentSSID = currentSSID.substring(1, currentSSID.length() - 1);
-            Log.d(TAG, "-> currentSSID: " + currentSSID);
-
-            if (!currentSSID.equals("unknown ssid")) {
+            if (!currentSSID.equals("unknown ssid") && !supplicantState.equals("DISCONNECTED")) {
                 return currentSSID;
             }
         }
