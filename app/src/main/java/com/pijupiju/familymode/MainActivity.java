@@ -39,6 +39,7 @@ public class MainActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_main);
         initViews();
+        ensureFamilyMode();
     }
 
     @Override
@@ -114,7 +115,12 @@ public class MainActivity extends AppCompatActivity {
         swManageService.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                manageService();
+                if (serviceEnabled) {
+                    getSharedPreferences(getString(R.string.shared_prefs_file), MODE_PRIVATE).edit().putBoolean(getString(R.string.shared_prefs_service_enabled), false).apply();
+                } else {
+                    getSharedPreferences(getString(R.string.shared_prefs_file), MODE_PRIVATE).edit().putBoolean(getString(R.string.shared_prefs_service_enabled), true).apply();
+                }
+                ensureFamilyMode();
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
@@ -209,23 +215,6 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    private void manageService() {
-        String methodName = new Object() {
-        }.getClass().getEnclosingMethod().getName();
-        Log.d(TAG, "-> " + methodName);
-
-        SharedPreferences preferences = getApplicationContext().getSharedPreferences(getString(R.string.shared_prefs_file), 0);
-        serviceEnabled = preferences.getBoolean(getString(R.string.shared_prefs_service_enabled), false);
-
-        if (serviceEnabled) {
-            RingerManager.enableRinger(this);
-            getSharedPreferences(getString(R.string.shared_prefs_file), MODE_PRIVATE).edit().putBoolean(getString(R.string.shared_prefs_service_enabled), false).apply();
-        } else {
-            getSharedPreferences(getString(R.string.shared_prefs_file), MODE_PRIVATE).edit().putBoolean(getString(R.string.shared_prefs_service_enabled), true).apply();
-        }
-        WifiReceiver.manageRingerBasedOnSSID(getApplicationContext(), false);
-    }
-
     private void markSSID() {
         String methodName = new Object() {
         }.getClass().getEnclosingMethod().getName();
@@ -251,4 +240,19 @@ public class MainActivity extends AppCompatActivity {
             startActivity(intent);
         }
     }
+
+    private void ensureFamilyMode() {
+        String methodName = new Object() {
+        }.getClass().getEnclosingMethod().getName();
+        Log.d(TAG, "-> " + methodName);
+
+        SharedPreferences preferences = getApplicationContext().getSharedPreferences(getString(R.string.shared_prefs_file), 0);
+        serviceEnabled = preferences.getBoolean(getString(R.string.shared_prefs_service_enabled), false);
+        if (serviceEnabled) {
+            WifiReceiver.manageRingerBasedOnSSID(getApplicationContext(), false);
+        } else {
+            RingerManager.enableRinger(this);
+        }
+    }
+
 }
