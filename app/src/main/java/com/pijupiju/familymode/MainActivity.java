@@ -1,11 +1,18 @@
 package com.pijupiju.familymode;
 
+import android.Manifest;
+import android.app.NotificationManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.net.wifi.WifiManager;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -22,8 +29,9 @@ import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
     private final static String TAG = MainActivity.class.getSimpleName();
-    Switch swManageService;
+    static final int ACCESS_COARSE_LOCATION_REQUEST = 1;
     Boolean serviceEnabled = false;
+    Switch swManageService;
     TextView tvWiFiState;
     TextView tvWiFiSSID;
     TextView tvWiFiMarked;
@@ -39,7 +47,7 @@ public class MainActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_main);
         initViews();
-        ensureFamilyMode();
+        verifyPerms();
     }
 
     @Override
@@ -136,7 +144,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 String currentSSID = SSIDManager.getCurrentSSID(getApplicationContext());
-                if (! SSIDManager.isSSIDMarked(getApplicationContext(), currentSSID)) {
+                if (!SSIDManager.isSSIDMarked(getApplicationContext(), currentSSID)) {
                     AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
                     builder.setMessage(String.format(getString(R.string.dialog_add_ssid_inquiry), currentSSID))
                             .setPositiveButton(R.string.dialog_add_ssid_yes, new DialogInterface.OnClickListener() {
@@ -192,7 +200,7 @@ public class MainActivity extends AppCompatActivity {
             String currentSSID = SSIDManager.getCurrentSSID(this);
             tvWiFiState.setText(R.string.tv_state_enabled);
             tvWiFiSSID.setText(String.format(getString(R.string.tv_wifi_ssid_placeholder), currentSSID));
-            if (! currentSSID.equals("")) {
+            if (!currentSSID.equals("")) {
                 tvWiFiSSID.setVisibility(View.VISIBLE);
             }
 
@@ -238,6 +246,38 @@ public class MainActivity extends AppCompatActivity {
         } else {
             Intent intent = new Intent(getApplicationContext(), SSIDListActivity.class);
             startActivity(intent);
+        }
+    }
+
+    private void verifyPerms() {
+        String methodName = new Object() {
+        }.getClass().getEnclosingMethod().getName();
+        Log.d(TAG, "-> " + methodName);
+
+        if (ContextCompat.checkSelfPermission(getApplicationContext(),
+                Manifest.permission.ACCESS_COARSE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this,
+                    new String[]{Manifest.permission.ACCESS_COARSE_LOCATION},
+                    ACCESS_COARSE_LOCATION_REQUEST);
+        }
+
+        NotificationManager notificationManager = (NotificationManager) getApplicationContext().getSystemService(Context.NOTIFICATION_SERVICE);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N && !notificationManager.isNotificationPolicyAccessGranted()) {
+            Intent intent = new Intent(android.provider.Settings.
+                    ACTION_NOTIFICATION_POLICY_ACCESS_SETTINGS);
+            startActivityForResult(intent, ACCESS_COARSE_LOCATION_REQUEST);
+        } else {
+            ensureFamilyMode();
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        if (requestCode == ACCESS_COARSE_LOCATION_REQUEST) {
+            if (resultCode == RESULT_OK) {
+                ensureFamilyMode();
+            }
         }
     }
 

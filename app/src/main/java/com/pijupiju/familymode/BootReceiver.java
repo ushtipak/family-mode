@@ -13,9 +13,10 @@ public class BootReceiver extends BroadcastReceiver {
         String action = intent.getAction();
         assert action != null;
         if (action.equals("android.intent.action.LOCKED_BOOT_COMPLETED")) {
-            Intent i = new Intent(context, MainActivity.class);
+
+            Intent i = new Intent(context.getApplicationContext(), MainActivity.class);
             i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            context.startActivity(i);
+            context.getApplicationContext().startActivity(i);
         }
     }
 
